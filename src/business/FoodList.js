@@ -21,7 +21,7 @@ export default class FoodList extends React.Component {
 
     render() {
         const rows = this.state.foods.map(food =>
-            <Table.Row key={food.name}>
+            <Table.Row key={food.name + food.description}>
                 <Table.Cell>{food.number}</Table.Cell>
                 <Table.Cell>{food.name}</Table.Cell>
                 <Table.Cell>{food.description}</Table.Cell>
