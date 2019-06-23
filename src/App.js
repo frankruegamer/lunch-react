@@ -1,13 +1,17 @@
 import React from 'react';
 import './App.css';
-import RestaurantList from "./business/restaurant/RestaurantList";
-import FoodList from "./business/restaurant/FoodList";
+import RestaurantList from "./business/RestaurantList";
+import Header from "./header/Header";
+import FoodList from "./business/FoodList";
 
 function App() {
     return (
         <>
-            <RestaurantList/>
-            <FoodList/>
+            <Header/>
+            <div className='App'>
+                <RestaurantList/>
+                <FoodList/>
+            </div>
         </>
     );
 }
