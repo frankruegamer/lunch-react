@@ -1,9 +1,9 @@
 import React from "react";
 import {Image, Menu, Responsive} from "semantic-ui-react";
-import OrderList from "../business/OrderList";
 import logo from '../logo.svg';
 import Logout from "./Logout";
 import NewOrder from "./NewOrder";
+import OrderMenuItem from "./OrderMenuItem";
 
 export default function () {
     return (
@@ -14,9 +14,7 @@ export default function () {
                     Lunch Organizer
                 </Menu.Item>
             </Responsive>
-            <Menu.Item>
-                <OrderList/>
-            </Menu.Item>
+            <OrderMenuItem/>
             <NewOrder/>
             <Logout/>
         </Menu>

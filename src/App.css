@@ -1,5 +1,9 @@
+:root {
+    --header-margin: 4em;
+}
+
 .App {
-    margin: 4em 10px 10px;
+    margin: var(--header-margin) 10px 10px;
 }
 
 .App-logo {
