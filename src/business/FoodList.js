@@ -1,6 +1,7 @@
 import React from "react";
-import {Pagination, Table} from "semantic-ui-react";
+import {Pagination} from "semantic-ui-react";
 import FoodService from "../service/FoodService";
+import FoodTable from "./FoodTable";
 
 export default class FoodList extends React.Component {
 
@@ -38,30 +39,10 @@ export default class FoodList extends React.Component {
 
     render() {
         const {foods, totalPages, activePage} = this.state;
-        const rows = foods.map(food =>
-            <Table.Row key={food.name + food.description}>
-                <Table.Cell>{food.number}</Table.Cell>
-                <Table.Cell>{food.name}</Table.Cell>
-                <Table.Cell>{food.description}</Table.Cell>
-                <Table.Cell>{food.price.toFixed(2)} €</Table.Cell>
-            </Table.Row>
-        );
         return (
             <>
                 <Pagination activePage={activePage} totalPages={totalPages} onPageChange={this.handlePageChange}/>
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Number</Table.HeaderCell>
-                            <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Description</Table.HeaderCell>
-                            <Table.HeaderCell>Price</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {rows}
-                    </Table.Body>
-                </Table>
+                <FoodTable foods={foods}/>
             </>
         );
     }
