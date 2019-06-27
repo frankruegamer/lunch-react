@@ -1,6 +1,6 @@
 import React from "react";
 import {Dropdown} from "semantic-ui-react";
-import * as dateformat from "dateformat";
+import dateFormat from "dateformat";
 
 export default class OrderList extends React.Component {
 
@@ -11,7 +11,7 @@ export default class OrderList extends React.Component {
 
     static toOption(order) {
         const timeStampString = order.timestamp.toISOString();
-        return {key: timeStampString, text: dateformat(order.timestamp, "yyyy-MM-dd HH:MM:ss"), value: timeStampString}
+        return {key: timeStampString, text: dateFormat(order.timestamp, "yyyy-MM-dd HH:MM:ss"), value: timeStampString}
     }
 
     handleChange(event, data) {
