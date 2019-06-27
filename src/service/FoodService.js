@@ -5,7 +5,7 @@ function getAll() {
 }
 
 function getAllPaginated(page) {
-    return BackendService.getPaginatedCollection("foods", page - 1);
+    return BackendService.getPaginatedCollection("foods", page - 1, 10);
 }
 
 
