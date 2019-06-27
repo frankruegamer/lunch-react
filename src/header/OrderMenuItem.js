@@ -1,6 +1,7 @@
 import React from "react";
 import {Menu} from "semantic-ui-react";
 import OrderList from "../business/OrderList";
+import OrderService from "../service/OrderService";
 
 export default class OrderMenuItem extends React.Component {
 
@@ -14,10 +15,8 @@ export default class OrderMenuItem extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/orders/search/last10")
-            .then(r => r.json())
-            .then(data => data._embedded.orders)
-            .then(this.addInitialOrders);
+        OrderService.getLast10()
+                    .then(this.addInitialOrders);
     }
 
     addInitialOrders(orders) {

@@ -1,5 +1,6 @@
 import React from "react";
 import {Dropdown} from "semantic-ui-react";
+import RestaurantService from "../service/RestaurantService";
 
 export default class RestaurantList extends React.Component {
 
@@ -12,12 +13,10 @@ export default class RestaurantList extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/restaurants")
-            .then(response => response.json())
-            .then(data => data._embedded.restaurants)
-            .then(restaurants => this.setState({
-                restaurants: restaurants
-            }));
+        const updateState = restaurants => this.setState({
+            restaurants: restaurants
+        });
+        RestaurantService.getAll().then(updateState);
     }
 
     pleaselog(event, data) {
