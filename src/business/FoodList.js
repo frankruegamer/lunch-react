@@ -47,7 +47,7 @@ export default class FoodList extends React.Component {
         const {input, foods, totalPages, activePage} = this.state;
         return (
             <>
-                <Input value={input} onChange={this.handleInputChange}/>
+                <Input placeholder="Search food..." value={input} onChange={this.handleInputChange}/>
                 <Pagination activePage={activePage} totalPages={totalPages} onPageChange={this.handlePageChange}/>
                 <FoodTable foods={foods}/>
             </>
