@@ -5,7 +5,11 @@ function getAll() {
 }
 
 function getAllPaginated(page) {
-    return BackendService.getPaginatedCollection("foods", page - 1, 10);
+    const params = {
+        page: page - 1,
+        size: 10
+    };
+    return BackendService.getPaginatedCollection("foods", params);
 }
 
 
@@ -17,6 +21,16 @@ export default class FoodService {
         } else {
             return getAll();
         }
+    }
+
+    static getFromRegex(regex, page) {
+        const params = {
+            page: page - 1,
+            size: 10,
+            regex: regex,
+            restaurant: '/1'
+        };
+        return BackendService.getPaginatedCollection("foods/search/findByNameRegex", params)
     }
 
 }

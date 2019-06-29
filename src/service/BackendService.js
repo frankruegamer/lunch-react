@@ -10,13 +10,10 @@ export default class BackendService {
             .then(embedded => Object.values(embedded)[0])
     }
 
-    static getPaginatedCollection(path, page, size) {
+    static getPaginatedCollection(path, params = {}) {
         const uri = URI(BackendService.baseURL)
             .path(URI.joinPaths(BackendService.baseURL, path))
-            .query({
-                'page': page,
-                'size': size
-            });
+            .query(params);
         return fetch(uri)
             .then(response => response.json())
     }
