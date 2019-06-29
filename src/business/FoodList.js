@@ -40,6 +40,12 @@ export default class FoodList extends React.Component {
                     activePage: activePage,
                     input: input
                 });
+            })
+            .catch(() => {
+                this.setState({
+                    activePage: activePage,
+                    input: input
+                })
             });
     }
 
