@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Pagination} from "semantic-ui-react";
+import {Input, Pagination, Search} from "semantic-ui-react";
 import FoodService from "../service/FoodService";
 import FoodTable from "./FoodTable";
 
@@ -51,8 +51,15 @@ export default class FoodList extends React.Component {
 
     render() {
         const {input, foods, totalPages, activePage} = this.state;
+        const results = foods.map(food => ({
+            key: food.name + food.description,
+            title: food.name,
+            description: food.description,
+            price: food.price.toFixed(2) + " €"
+        }));
         return (
             <>
+                <Search value={input} minCharacters={3} results={results} onSearchChange={this.handleInputChange}/>
                 <Input placeholder="Search food..." value={input} onChange={this.handleInputChange}/>
                 <Pagination activePage={activePage} totalPages={totalPages} onPageChange={this.handlePageChange}/>
                 <FoodTable foods={foods}/>
