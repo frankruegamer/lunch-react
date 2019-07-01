@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon, Menu} from "semantic-ui-react";
 
-const NewOrder = () => {
+const NewOrder: React.FC = () => {
     return (
         <Menu.Item as='a' color='green'>
             <Icon name='add' color='green'/>

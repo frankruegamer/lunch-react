@@ -1,30 +1,35 @@
 import React from "react";
-import {Dropdown} from "semantic-ui-react";
+import {Dropdown, DropdownProps} from "semantic-ui-react";
 import RestaurantService from "../service/RestaurantService";
+import Restaurant from "../domain/Restaurant";
 
-export default class RestaurantList extends React.Component {
+interface RestaurantListState {
+    restaurants: Restaurant[]
+}
 
-    constructor(props, context) {
-        super(props, context);
+export default class RestaurantList extends React.Component<object, RestaurantListState> {
+
+    constructor(props: Readonly<object>) {
+        super(props);
         this.state = {
             restaurants: []
         };
         this.pleaselog = this.pleaselog.bind(this);
     }
 
-    componentDidMount() {
-        const updateState = restaurants => this.setState({
+    componentDidMount(): void {
+        let updateState = (restaurants: Restaurant[]) => this.setState({
             restaurants: restaurants
         });
         RestaurantService.getAll().then(updateState);
     }
 
-    pleaselog(event, data) {
+    pleaselog(event: any, data: DropdownProps): void {
         const restaurant = this.state.restaurants.find(restaurant => restaurant.name === data.value);
         console.log(restaurant);
     }
 
-    render() {
+    render(): React.ReactNode {
         const options = this.state.restaurants.map(restaurant => {
             const name = restaurant.name;
             return ({key: name, text: name, value: name});

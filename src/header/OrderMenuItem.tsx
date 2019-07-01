@@ -2,11 +2,17 @@ import React from "react";
 import {Menu} from "semantic-ui-react";
 import OrderList from "../business/OrderList";
 import OrderService from "../service/OrderService";
+import Order from "../domain/Order";
 
-export default class OrderMenuItem extends React.Component {
+interface OrderMenuItemState {
+    orders: Order[]
+    current?: Order
+}
 
-    constructor(props, context) {
-        super(props, context);
+export default class OrderMenuItem extends React.Component<object, OrderMenuItemState> {
+
+    constructor(props: Readonly<object>) {
+        super(props);
         this.state = {
             orders: []
         };
@@ -14,12 +20,12 @@ export default class OrderMenuItem extends React.Component {
         this.onItemChange = this.onItemChange.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         OrderService.getLast10()
-                    .then(this.addInitialOrders);
+            .then(this.addInitialOrders);
     }
 
-    addInitialOrders(orders) {
+    addInitialOrders(orders: Order[]): void {
         orders = orders.map(order => {
             order.timestamp = new Date(order.timestamp);
             return order
@@ -30,14 +36,15 @@ export default class OrderMenuItem extends React.Component {
         });
     }
 
-    onItemChange(timestamp) {
+    onItemChange(timestamp: string): void {
         const current = this.state.orders.find(order => order.timestamp.toISOString() === timestamp);
         this.setState({
             current: current
         });
     }
 
-    render() {
+
+    render(): React.ReactNode {
         const {orders, current} = this.state;
         if (orders.length <= 0) {
             return null;
@@ -48,4 +55,5 @@ export default class OrderMenuItem extends React.Component {
             </Menu.Item>
         )
     }
+
 }

@@ -4,7 +4,7 @@ import RestaurantList from "./business/RestaurantList";
 import Header from "./header/Header";
 import FoodList from "./business/FoodList";
 
-function App() {
+const App: React.FC = () => {
     return (
         <>
             <Header/>
@@ -14,6 +14,6 @@ function App() {
             </div>
         </>
     );
-}
+};
 
 export default App;

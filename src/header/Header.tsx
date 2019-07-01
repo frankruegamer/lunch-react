@@ -5,7 +5,7 @@ import Logout from "./Logout";
 import NewOrder from "./NewOrder";
 import OrderMenuItem from "./OrderMenuItem";
 
-export default function () {
+const Header: React.FC = () => {
     return (
         <Menu fixed='top'>
             <Responsive {...Responsive.onlyComputer}>
@@ -19,4 +19,6 @@ export default function () {
             <Logout/>
         </Menu>
     );
-}
+};
+
+export default Header;
