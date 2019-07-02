@@ -49,7 +49,8 @@ export default class FoodList extends React.Component<object, FoodListState> {
                     input: input
                 });
             })
-            .catch(() => {
+            .catch(reason => {
+                console.log(reason);
                 this.setState({
                     activePage: activePage,
                     input: input

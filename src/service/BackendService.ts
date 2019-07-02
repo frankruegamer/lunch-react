@@ -1,5 +1,5 @@
 import URI from 'urijs';
-import Pageable from "../domain/Pageable";
+import Hal from "../domain/hal/Hal";
 
 interface Parameters {
     [key: string]: string | number | undefined
@@ -20,13 +20,13 @@ export default class BackendService {
             .then(embedded => Object.values(embedded)[0] as T[])
     }
 
-    static getPaginatedCollection<T>(path: string, params: Parameters = {}): Promise<Pageable<T>> {
+    static getPaginatedCollection<T>(path: string, params: Parameters = {}): Promise<Hal<T>> {
         const uri = URI(BackendService.baseURL)
             .path(URI.joinPaths(BackendService.baseURL, path).path())
             .query(params);
         return fetch(uri.valueOf())
             .then(response => response.json())
-            .then(json => new Pageable(json))
+            .then(json => new Hal(json))
     }
 
     static testConnection() {

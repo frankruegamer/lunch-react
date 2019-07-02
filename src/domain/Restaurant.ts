@@ -1,3 +1,5 @@
-export default interface Restaurant {
+import Linkable from "./hal/Linkable";
+
+export default interface Restaurant extends Linkable {
     name: string
 }
