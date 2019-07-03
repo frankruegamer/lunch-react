@@ -1,9 +1,13 @@
 import Links from "./Links";
 
 export default class Linkable {
-    private _links?: Links;
+    private readonly _links: Links;
 
-    get links(): Links | undefined {
+    constructor(links: Linkable) {
+        this._links = links._links;
+    }
+
+    get links(): Links {
         return this._links;
     }
 

@@ -1,5 +1,6 @@
 import URI from 'urijs';
 import Hal from "../domain/hal/Hal";
+import Linkable from "../domain/hal/Linkable";
 
 interface Parameters {
     [key: string]: string | number | undefined
@@ -20,7 +21,7 @@ export default class BackendService {
             .then(embedded => Object.values(embedded)[0] as T[])
     }
 
-    static getPaginatedCollection<T>(path: string, params: Parameters = {}): Promise<Hal<T>> {
+    static getPaginatedCollection<T extends Linkable>(path: string, params: Parameters = {}): Promise<Hal<T>> {
         const uri = URI(BackendService.baseURL)
             .path(URI.joinPaths(BackendService.baseURL, path).path())
             .query(params);

@@ -42,6 +42,7 @@ export default class FoodList extends React.Component<object, FoodListState> {
     updateFoodList(input: string, activePage: number): void {
         FoodService.getFromRegex(input, activePage)
             .then(response => {
+                console.log(response.objects[0].links);
                 return this.setState({
                     foods: response.objects,
                     totalPages: response.page.totalPages,
