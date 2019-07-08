@@ -15,11 +15,10 @@ export default class BackendService {
 
     static baseURL = 'http://localhost:8080/api/';
 
-    static getCollection<T>(path: string): Promise<T[]> {
+    static getCollection<T extends Linkable<Links>>(path: string): Promise<T[]> {
         return fetch(BackendService.baseURL + path)
             .then(response => response.json())
-            .then(data => data._embedded)
-            .then(embedded => Object.values(embedded)[0] as T[])
+            .then(json => new Hal<T>(json).objects)
     }
 
     static getPaginatedCollection<T extends Linkable<Links>>(path: string, params: Parameters = {}): Promise<Hal<T>> {

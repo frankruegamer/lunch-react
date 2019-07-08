@@ -27,19 +27,18 @@ export default class FoodService {
     }
 
     static getFromRegex(regex: string, page: number, restaurant?: Restaurant): Promise<Hal<Food>> {
-        let link = '/1';
-        if (restaurant !== undefined) {
-            // @ts-ignore
-            link = restaurant._links.self;
-        }
-        const params = {
+        const params: {[key: string]: any} = {
             regex: regex,
-            restaurant: link,
             page: page - 1,
             size: 10,
             sort: 'name'
         };
-        return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegex", params)
+        if (restaurant !== undefined) {
+            params.restaurant = restaurant.links.self.href;
+            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegexAndRestaurant", params)
+        } else {
+            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegex", params)
+        }
     }
 
 }

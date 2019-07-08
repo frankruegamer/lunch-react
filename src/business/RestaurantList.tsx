@@ -3,18 +3,22 @@ import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import RestaurantService from "../service/RestaurantService";
 import Restaurant from "../domain/Restaurant";
 
+interface RestaurantListProps {
+    handleRestaurantChange: (restaurant?: Restaurant) => void
+}
+
 interface RestaurantListState {
     restaurants: Restaurant[]
 }
 
-export default class RestaurantList extends React.Component<object, RestaurantListState> {
+export default class RestaurantList extends React.Component<RestaurantListProps, RestaurantListState> {
 
-    constructor(props: Readonly<object>) {
+    constructor(props: Readonly<RestaurantListProps>) {
         super(props);
         this.state = {
             restaurants: []
         };
-        this.pleaselog = this.pleaselog.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount(): void {
@@ -24,9 +28,9 @@ export default class RestaurantList extends React.Component<object, RestaurantLi
         RestaurantService.getAll().then(updateState);
     }
 
-    pleaselog(event: any, data: DropdownProps): void {
+    handleChange(event: any, data: DropdownProps): void {
         const restaurant = this.state.restaurants.find(restaurant => restaurant.name === data.value);
-        console.log(restaurant);
+        this.props.handleRestaurantChange(restaurant);
     }
 
     render(): React.ReactNode {
@@ -34,7 +38,7 @@ export default class RestaurantList extends React.Component<object, RestaurantLi
             const name = restaurant.name;
             return {key: name, text: name, value: name};
         });
-        return <Dropdown placeholder='Select restaurant...' selection options={options} onChange={this.pleaselog}/>
+        return <Dropdown placeholder='Select restaurant...' clearable selection options={options} onChange={this.handleChange}/>
     }
 }
 

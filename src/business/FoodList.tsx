@@ -3,6 +3,11 @@ import {Input, InputOnChangeData, Pagination, PaginationProps} from "semantic-ui
 import FoodService from "../service/FoodService";
 import FoodTable from "./FoodTable";
 import Food from "../domain/Food";
+import Restaurant from "../domain/Restaurant";
+
+interface FoodListProps {
+    restaurant?: Restaurant
+}
 
 interface FoodListState {
     foods: Food[]
@@ -11,9 +16,9 @@ interface FoodListState {
     input: string
 }
 
-export default class FoodList extends React.Component<object, FoodListState> {
+export default class FoodList extends React.Component<FoodListProps, FoodListState> {
 
-    constructor(props: Readonly<object>) {
+    constructor(props: Readonly<FoodListProps>) {
         super(props);
         this.state = {
             foods: [],
@@ -31,6 +36,13 @@ export default class FoodList extends React.Component<object, FoodListState> {
         this.updateFoodList(input, activePage);
     }
 
+    componentDidUpdate(prevProps: Readonly<FoodListProps>): void {
+        if (this.props.restaurant !== prevProps.restaurant) {
+            const {input, activePage} = this.state;
+            this.updateFoodList(input, activePage);
+        }
+    }
+
     handlePageChange(event: any, {activePage}: PaginationProps): void {
         this.updateFoodList(this.state.input, activePage as number);
     }
@@ -40,7 +52,7 @@ export default class FoodList extends React.Component<object, FoodListState> {
     }
 
     updateFoodList(input: string, activePage: number): void {
-        FoodService.getFromRegex(input, activePage)
+        FoodService.getFromRegex(input, activePage, this.props.restaurant)
             .then(response => {
                 return this.setState({
                     foods: response.objects,
