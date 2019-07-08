@@ -1,9 +1,9 @@
 import Links from "./Links";
 
-export default class Linkable {
-    private _links?: Links;
+export default class Linkable<T extends Links> {
+    private readonly _links!: T;
 
-    get links(): Links | undefined {
+    get links(): T {
         return this._links;
     }
 
