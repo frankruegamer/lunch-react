@@ -3,6 +3,7 @@ import Links from "./hal/Links";
 import Link from "./hal/Link";
 
 interface FoodLinks extends Links {
+    food: Link
     restaurant: Link
 }
 
