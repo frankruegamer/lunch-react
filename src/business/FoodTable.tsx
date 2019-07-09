@@ -6,8 +6,8 @@ interface FoodTableProps {
     foods: Food[]
 }
 
-const FoodTable: React.FC<FoodTableProps> = (props) => {
-    const rows = props.foods.map(food =>
+const FoodTable: React.FC<FoodTableProps> = ({foods}) => {
+    const rows = foods.map(food =>
         <Table.Row key={food.name + food.description}>
             <Table.Cell>{food.number}</Table.Cell>
             <Table.Cell>{food.name}</Table.Cell>

@@ -46,14 +46,15 @@ export default class OrderMenuItem extends React.Component<object, OrderMenuItem
 
     render(): React.ReactNode {
         const {orders, current} = this.state;
-        if (orders.length <= 0) {
+        if (orders.length > 0) {
+            return (
+                <Menu.Item>
+                    <OrderList orders={orders} onItemChange={this.onItemChange} value={current}/>
+                </Menu.Item>
+            )
+        } else {
             return null;
         }
-        return (
-            <Menu.Item>
-                <OrderList orders={orders} onItemChange={this.onItemChange} value={current}/>
-            </Menu.Item>
-        )
     }
 
 }

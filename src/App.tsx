@@ -9,7 +9,7 @@ const App: React.FC = () => {
     const [restaurant, setRestaurant] = useState<Restaurant | undefined>(undefined);
     return (
         <>
-            <Header/>
+            <Header restaurant={restaurant}/>
             <div className='App'>
                 <RestaurantList handleRestaurantChange={setRestaurant}/>
                 <FoodList restaurant={restaurant}/>
