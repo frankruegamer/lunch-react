@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react"
+  ],
+  "rules": {
+    "arrow-parens": false,
+    "interface-name": false,
+    "jsx-wrap-multiline": false,
+    "jsx-boolean-value": false,
+    "member-access": false,
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "trailing-comma": false
+  }
+}

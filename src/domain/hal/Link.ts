@@ -1,3 +1,3 @@
 export default interface Link {
-    href: string
+    href: string;
 }

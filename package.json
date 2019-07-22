@@ -18,6 +18,10 @@
     "typescript": "^3.5.2",
     "urijs": "^1.19.1"
   },
+  "devDependencies": {
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

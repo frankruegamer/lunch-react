@@ -1,14 +1,14 @@
-import Page from "./Page";
-import PagingLinks from "./PagingLinks";
 import Embedded from "./Embedded";
 import Linkable from "./Linkable";
 import Links from "./Links";
+import Page from "./Page";
+import PagingLinks from "./PagingLinks";
 
-type HalObject<T> = {
-    _embedded: Embedded<T>
-    _links: PagingLinks
-    page: Page
-};
+interface HalObject<T> {
+    _embedded: Embedded<T>;
+    _links: PagingLinks;
+    page: Page;
+}
 
 export default class Hal<T extends Linkable<Links>> {
 
@@ -29,7 +29,7 @@ export default class Hal<T extends Linkable<Links>> {
     }
 
     get objects(): T[] {
-        return Object.values(this.json._embedded)[0]
+        return Object.values(this.json._embedded)[0];
     }
 
 }

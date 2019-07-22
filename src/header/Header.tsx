@@ -1,22 +1,22 @@
 import React from "react";
 import {Image, Menu, Responsive} from "semantic-ui-react";
-import logo from '../logo.svg';
+import Restaurant from "../domain/Restaurant";
+import logo from "../logo.svg";
 import Logout from "./Logout";
 import NewOrder from "./NewOrder";
 import OrderMenuItem from "./OrderMenuItem";
-import Restaurant from "../domain/Restaurant";
 import RestaurantMenuItem from "./RestaurantMenuItem";
 
 interface HeaderProps {
-    restaurant?: Restaurant
+    restaurant?: Restaurant;
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
     return (
-        <Menu fixed='top'>
+        <Menu fixed="top">
             <Responsive {...Responsive.onlyComputer}>
                 <Menu.Item>
-                    <Image size='mini' src={logo} className='App-logo'/>
+                    <Image size="mini" src={logo} className="App-logo"/>
                     Lunch Organizer
                 </Menu.Item>
             </Responsive>

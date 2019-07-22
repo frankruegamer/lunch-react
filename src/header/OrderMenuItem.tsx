@@ -1,12 +1,12 @@
 import React from "react";
 import {Menu} from "semantic-ui-react";
 import OrderList from "../business/OrderList";
-import OrderService from "../service/OrderService";
 import Order from "../domain/Order";
+import OrderService from "../service/OrderService";
 
 interface OrderMenuItemState {
-    orders: Order[]
-    current?: Order
+    orders: Order[];
+    current?: Order;
 }
 
 export default class OrderMenuItem extends React.Component<object, OrderMenuItemState> {
@@ -28,21 +28,20 @@ export default class OrderMenuItem extends React.Component<object, OrderMenuItem
     addInitialOrders(orders: Order[]): void {
         orders = orders.map(order => {
             order.timestamp = new Date(order.timestamp);
-            return order
+            return order;
         });
         this.setState({
-            orders: orders,
-            current: orders[0]
+            current: orders[0],
+            orders
         });
     }
 
     onItemChange(timestamp: string): void {
         const current = this.state.orders.find(order => order.timestamp.toISOString() === timestamp);
         this.setState({
-            current: current
+            current
         });
     }
-
 
     render(): React.ReactNode {
         const {orders, current} = this.state;
@@ -51,7 +50,7 @@ export default class OrderMenuItem extends React.Component<object, OrderMenuItem
                 <Menu.Item>
                     <OrderList orders={orders} onItemChange={this.onItemChange} value={current}/>
                 </Menu.Item>
-            )
+            );
         } else {
             return null;
         }

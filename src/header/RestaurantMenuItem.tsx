@@ -1,9 +1,9 @@
 import React from "react";
-import Restaurant from "../domain/Restaurant";
 import {Menu} from "semantic-ui-react";
+import Restaurant from "../domain/Restaurant";
 
 interface RestaurantMenuItemProps {
-    restaurant?: Restaurant
+    restaurant?: Restaurant;
 }
 
 const RestaurantMenuItem: React.FC<RestaurantMenuItemProps> = ({restaurant}) => {
@@ -12,10 +12,10 @@ const RestaurantMenuItem: React.FC<RestaurantMenuItemProps> = ({restaurant}) => 
             <Menu.Item>
                 {restaurant.name}
             </Menu.Item>
-        )
+        );
     } else {
         return null;
     }
 };
 
-export default RestaurantMenuItem
+export default RestaurantMenuItem;

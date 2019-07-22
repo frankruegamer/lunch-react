@@ -1,5 +1,5 @@
-import BackendService from "./BackendService";
 import Restaurant from "../domain/Restaurant";
+import BackendService from "./BackendService";
 
 export default class RestaurantService {
 

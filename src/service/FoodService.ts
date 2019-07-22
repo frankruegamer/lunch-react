@@ -1,10 +1,10 @@
-import BackendService from "./BackendService";
 import Food from "../domain/Food";
-import Restaurant from "../domain/Restaurant";
 import Hal from "../domain/hal/Hal";
+import Restaurant from "../domain/Restaurant";
+import BackendService from "./BackendService";
 
 function getAll(): Promise<Food[]> {
-    return BackendService.getCollection<Food>('foods');
+    return BackendService.getCollection<Food>("foods");
 }
 
 function getAllPaginated(page: number): Promise<Hal<Food>> {
@@ -14,7 +14,6 @@ function getAllPaginated(page: number): Promise<Hal<Food>> {
     };
     return BackendService.getPaginatedCollection<Food>("foods", params);
 }
-
 
 export default class FoodService {
 
@@ -27,17 +26,17 @@ export default class FoodService {
     }
 
     static getFromRegex(regex: string, page: number, restaurant?: Restaurant): Promise<Hal<Food>> {
-        const params: {[key: string]: any} = {
-            regex: regex,
+        const params: { [key: string]: any } = {
             page: page - 1,
+            regex,
             size: 10,
-            sort: 'name'
+            sort: "name"
         };
         if (restaurant !== undefined) {
             params.restaurant = restaurant.links.self.href;
-            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegexAndRestaurant", params)
+            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegexAndRestaurant", params);
         } else {
-            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegex", params)
+            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegex", params);
         }
     }
 

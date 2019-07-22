@@ -3,7 +3,7 @@ import {Table} from "semantic-ui-react";
 import Food from "../domain/Food";
 
 interface FoodTableProps {
-    foods: Food[]
+    foods: Food[];
 }
 
 const FoodTable: React.FC<FoodTableProps> = ({foods}) => {

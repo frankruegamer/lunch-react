@@ -1,19 +1,19 @@
 import React from "react";
 import {Input, Pagination, PaginationProps, Search, SearchProps} from "semantic-ui-react";
-import FoodService from "../service/FoodService";
-import FoodTable from "./FoodTable";
 import Food from "../domain/Food";
 import Restaurant from "../domain/Restaurant";
+import FoodService from "../service/FoodService";
+import FoodTable from "./FoodTable";
 
 interface FoodListProps {
-    restaurant?: Restaurant
+    restaurant?: Restaurant;
 }
 
 interface FoodListState {
-    foods: Food[]
-    activePage: number
-    totalPages: number
-    input: string
+    foods: Food[];
+    activePage: number;
+    totalPages: number;
+    input: string;
 }
 
 export default class FoodList extends React.Component<FoodListProps, FoodListState> {
@@ -21,10 +21,10 @@ export default class FoodList extends React.Component<FoodListProps, FoodListSta
     constructor(props: Readonly<FoodListProps>) {
         super(props);
         this.state = {
-            foods: [],
             activePage: 1,
-            totalPages: 5,
-            input: ""
+            foods: [],
+            input: "",
+            totalPages: 5
         };
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -63,28 +63,28 @@ export default class FoodList extends React.Component<FoodListProps, FoodListSta
         FoodService.getFromRegex(input, activePage, this.props.restaurant)
             .then(response => {
                 return this.setState({
+                    activePage,
                     foods: response.objects,
+                    input,
                     totalPages: response.page.totalPages,
-                    activePage: activePage,
-                    input: input
                 });
             })
             .catch(reason => {
                 console.log(reason);
                 this.setState({
-                    activePage: activePage,
-                    input: input
-                })
+                    activePage,
+                    input
+                });
             });
     }
 
     render(): React.ReactNode {
         const {input, foods, totalPages, activePage} = this.state;
         const results = foods.map(food => ({
+            description: food.description,
             key: food.name + food.description,
-            title: food.name,
             price: food.price.toFixed(2) + " €",
-            description: food.description
+            title: food.name
         }));
         return (
             <>

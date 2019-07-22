@@ -1,10 +1,10 @@
-import Links from "./Links";
 import Link from "./Link";
+import Links from "./Links";
 
 export default interface PagingLinks extends Links {
-    [key: string]: Link | undefined
-    first?: Link
-    prev?: Link
-    next?: Link
-    last?: Link
+    [key: string]: Link | undefined;
+    first?: Link;
+    prev?: Link;
+    next?: Link;
+    last?: Link;
 }
