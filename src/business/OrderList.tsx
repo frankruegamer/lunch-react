@@ -16,7 +16,7 @@ export default class OrderList extends React.Component<OrderListProps, object> {
             return {value: undefined};
         }
         const timeStampString = order.timestamp.toISOString();
-        return {key: timeStampString, text: dateFormat(order.timestamp, "yyyy-MM-dd HH:MM:ss"), value: timeStampString};
+        return {key: timeStampString, text: dateFormat(order.timestamp, "yyyy-mm-dd HH:MM:ss"), value: timeStampString};
     }
 
     constructor(props: Readonly<OrderListProps>) {
