@@ -9,6 +9,17 @@
     "jsx-wrap-multiline": false,
     "jsx-boolean-value": false,
     "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
     "no-console": [
       true,
       "debug",

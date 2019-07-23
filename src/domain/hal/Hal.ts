@@ -34,7 +34,7 @@ export default class Hal<T extends Linkable<Links>> {
 
 }
 
-function extend<T, U>(obj: T, extension: U) {
+export function extend<T, U>(obj: T, extension: U) {
     Object.keys(obj).forEach((key) => {
         // @ts-ignore
         extension[key] = obj[key];

@@ -1,18 +1,31 @@
 import React, {useState} from "react";
 import "./App.css";
 import FoodList from "./business/FoodList";
-import RestaurantList from "./business/RestaurantList";
+import Order from "./domain/Order";
 import Restaurant from "./domain/Restaurant";
 import Header from "./header/Header";
+import RestaurantService from "./service/RestaurantService";
+
+interface AppState {
+    order?: Order;
+    restaurant?: Restaurant;
+}
 
 const App: React.FC = () => {
-    const [restaurant, setRestaurant] = useState<Restaurant | undefined>(undefined);
+    const [state, setState] = useState<AppState>({});
+
+    function handleOrderChange(order: Order) {
+        RestaurantService.getFromOrder(order)
+            .then(restaurant => {
+                setState({order, restaurant});
+            });
+    }
+
     return (
         <>
-            <Header restaurant={restaurant}/>
-            <div className='App'>
-                <RestaurantList handleRestaurantChange={setRestaurant}/>
-                <FoodList restaurant={restaurant}/>
+            <Header restaurant={state.restaurant} order={state.order} onOrderChange={handleOrderChange}/>
+            <div className="App">
+                <FoodList restaurant={state.restaurant}/>
             </div>
         </>
     );

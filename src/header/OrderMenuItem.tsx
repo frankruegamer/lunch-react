@@ -4,14 +4,18 @@ import OrderList from "../business/OrderList";
 import Order from "../domain/Order";
 import OrderService from "../service/OrderService";
 
-interface OrderMenuItemState {
-    orders: Order[];
-    current?: Order;
+interface OrderMenuItemProps {
+    order?: Order;
+    onOrderChange: (order: Order) => void;
 }
 
-export default class OrderMenuItem extends React.Component<object, OrderMenuItemState> {
+interface OrderMenuItemState {
+    orders: Order[];
+}
 
-    constructor(props: Readonly<object>) {
+export default class OrderMenuItem extends React.Component<OrderMenuItemProps, OrderMenuItemState> {
+
+    constructor(props: Readonly<OrderMenuItemProps>) {
         super(props);
         this.state = {
             orders: []
@@ -25,30 +29,36 @@ export default class OrderMenuItem extends React.Component<object, OrderMenuItem
             .then(this.addInitialOrders);
     }
 
+    componentDidUpdate(prevProps: Readonly<OrderMenuItemProps>): void {
+        if (prevProps.order !== this.props.order) {
+            OrderService.getLast10()
+                .then(orders => this.setState({orders}));
+        }
+    }
+
     addInitialOrders(orders: Order[]): void {
-        orders = orders.map(order => {
-            order.timestamp = new Date(order.timestamp);
-            return order;
-        });
         this.setState({
-            current: orders[0],
             orders
         });
+        if (orders[0] !== undefined) {
+            this.props.onOrderChange(orders[0]);
+        }
     }
 
     onItemChange(timestamp: string): void {
         const current = this.state.orders.find(order => order.timestamp.toISOString() === timestamp);
-        this.setState({
-            current
-        });
+        if (current !== undefined) {
+            this.props.onOrderChange(current);
+        }
     }
 
     render(): React.ReactNode {
-        const {orders, current} = this.state;
+        const {orders} = this.state;
+        const {order} = this.props;
         if (orders.length > 0) {
             return (
                 <Menu.Item>
-                    <OrderList orders={orders} onItemChange={this.onItemChange} value={current}/>
+                    <OrderList orders={orders} onItemChange={this.onItemChange} value={order}/>
                 </Menu.Item>
             );
         } else {

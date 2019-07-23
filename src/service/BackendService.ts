@@ -1,39 +1,64 @@
 import URI from "urijs";
-import Hal from "../domain/hal/Hal";
+import Hal, {extend} from "../domain/hal/Hal";
+import Link from "../domain/hal/Link";
 import Linkable from "../domain/hal/Linkable";
 import Links from "../domain/hal/Links";
 
 interface Parameters {
-    [key: string]: string | number | undefined;
-
     page?: number;
     size?: number;
     sort?: string;
+
+    [key: string]: string | number | undefined;
+}
+
+interface Body {
+    [key: string]: string
 }
 
 export default class BackendService {
 
-    static baseURL = "http://localhost:8080/api/";
+    private static baseURL = "http://localhost:8080/api/";
+
+    static get<T extends Linkable<Links>>(link: Link): Promise<T> {
+        return fetch(link.href)
+            .then(response => response.json())
+            .then(json => extend(json, new Linkable()));
+    }
 
     static getCollection<T extends Linkable<Links>>(path: string): Promise<T[]> {
-        return fetch(BackendService.baseURL + path)
+        return fetch(BackendService.getUrl(path).valueOf())
             .then(response => response.json())
             .then(json => new Hal<T>(json).objects);
     }
 
     static getPaginatedCollection<T extends Linkable<Links>>(path: string, params: Parameters = {}): Promise<Hal<T>> {
-        const uri = URI(BackendService.baseURL)
-            .path(URI.joinPaths(BackendService.baseURL, path).path())
-            .query(params);
-        return fetch(uri.valueOf())
+        return fetch(BackendService.getUrl(path, params).valueOf())
             .then(response => response.json())
             .then(json => new Hal(json));
+    }
+
+    static post<T extends Linkable<Links>>(path: string, body: Body = {}): Promise<T> {
+        return fetch(BackendService.getUrl(path).valueOf(), {
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+        }).then(response => response.json())
+            .then(json => extend(json, new Linkable()));
     }
 
     static testConnection() {
         return fetch(BackendService.baseURL)
             .then(() => true)
             .catch(() => false);
+    }
+
+    private static getUrl(path: string, params?: Parameters): uri.URI {
+        const uri = URI(BackendService.baseURL)
+            .path(URI.joinPaths(BackendService.baseURL, path).path());
+        return params === undefined ? uri : uri.query(params);
     }
 
 }

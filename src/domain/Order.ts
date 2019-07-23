@@ -6,6 +6,6 @@ interface OrderLinks extends Links {
     restaurant: Link;
 }
 
-export default interface Order extends Linkable<Links> {
+export default interface Order extends Linkable<OrderLinks> {
     timestamp: Date;
 }

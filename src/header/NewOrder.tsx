@@ -1,13 +1,21 @@
 import React from "react";
 import {Icon, Menu} from "semantic-ui-react";
+import NewOrderPopup from "../business/NewOrderPopup";
+import Order from "../domain/Order";
 
-const NewOrder: React.FC = () => {
-    return (
+interface NewOrderProps {
+    onNewOrder: (order: Order) => void;
+}
+
+const NewOrder: React.FC<NewOrderProps> = ({onNewOrder}) => {
+    const menuItem = (
         <Menu.Item as="a" color="green">
             <Icon name="add" color="green"/>
             New order
         </Menu.Item>
     );
+
+    return <NewOrderPopup trigger={menuItem} onNewOrder={onNewOrder}/>;
 };
 
 export default NewOrder;
