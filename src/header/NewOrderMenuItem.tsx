@@ -7,7 +7,7 @@ interface NewOrderProps {
     onNewOrder: (order: Order) => void;
 }
 
-const NewOrder: React.FC<NewOrderProps> = ({onNewOrder}) => {
+const NewOrderMenuItem: React.FC<NewOrderProps> = ({onNewOrder}) => {
     const menuItem = (
         <Menu.Item as="a" color="green">
             <Icon name="add" color="green"/>
@@ -18,4 +18,4 @@ const NewOrder: React.FC<NewOrderProps> = ({onNewOrder}) => {
     return <NewOrderPopup trigger={menuItem} onNewOrder={onNewOrder}/>;
 };
 
-export default NewOrder;
+export default NewOrderMenuItem;
