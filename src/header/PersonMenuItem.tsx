@@ -34,6 +34,8 @@ const PersonMenuItem: React.FC<PersonMenuItemProps> = ({onPersonChange}) => {
             item
             placeholder="Please log in"
             allowAdditions
+            additionLabel="Create "
+            additionPosition="bottom"
             selection
             search
             options={options}
