@@ -1,5 +1,4 @@
 import React from "react";
-import {Menu} from "semantic-ui-react";
 import OrderList from "../business/OrderList";
 import Order from "../domain/Order";
 import OrderService from "../service/OrderService";
@@ -57,9 +56,7 @@ export default class OrderMenuItem extends React.Component<OrderMenuItemProps, O
         const {order} = this.props;
         if (orders.length > 0) {
             return (
-                <Menu.Item>
-                    <OrderList orders={orders} onItemChange={this.onItemChange} value={order}/>
-                </Menu.Item>
+                <OrderList orders={orders} onItemChange={this.onItemChange} value={order}/>
             );
         } else {
             return null;

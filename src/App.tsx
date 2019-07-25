@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "./App.css";
 import FoodList from "./business/FoodList";
 import Order from "./domain/Order";
+import Person from "./domain/Person";
 import Restaurant from "./domain/Restaurant";
 import Header from "./header/Header";
 import RestaurantService from "./service/RestaurantService";
@@ -13,6 +14,7 @@ interface AppState {
 
 const App: React.FC = () => {
     const [state, setState] = useState<AppState>({});
+    const [person, setPerson] = useState<Person>();
 
     function handleOrderChange(order: Order) {
         RestaurantService.getFromOrder(order)
@@ -21,11 +23,22 @@ const App: React.FC = () => {
             });
     }
 
+    function logout() {
+        setPerson(undefined);
+    }
+
     return (
         <>
-            <Header restaurant={state.restaurant} order={state.order} onOrderChange={handleOrderChange}/>
+            <Header
+                restaurant={state.restaurant}
+                order={state.order}
+                person={person}
+                onOrderChange={handleOrderChange}
+                onPersonChange={setPerson}
+                onLogout={logout}
+            />
             <div className="App">
-                <FoodList restaurant={state.restaurant}/>
+                {person !== undefined ? <FoodList restaurant={state.restaurant}/> : null}
             </div>
         </>
     );
