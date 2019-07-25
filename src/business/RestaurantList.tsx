@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import Restaurant from "../domain/Restaurant";
 import RestaurantService from "../service/RestaurantService";
@@ -7,43 +7,29 @@ interface RestaurantListProps {
     handleRestaurantChange: (restaurant?: Restaurant) => void;
 }
 
-interface RestaurantListState {
-    restaurants: Restaurant[];
-}
+const RestaurantList: React.FC<RestaurantListProps> = ({handleRestaurantChange}) => {
+    const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-export default class RestaurantList extends React.Component<RestaurantListProps, RestaurantListState> {
+    useEffect(() => {
+        RestaurantService.getAll().then(setRestaurants);
+    }, []);
 
-    constructor(props: Readonly<RestaurantListProps>) {
-        super(props);
-        this.state = {
-            restaurants: []
-        };
-        this.handleChange = this.handleChange.bind(this);
+    function handleChange(event: any, data: DropdownProps): void {
+        const restaurant = restaurants.find(r => r.name === data.value);
+        handleRestaurantChange(restaurant);
     }
 
-    componentDidMount(): void {
-        const updateState = (restaurants: Restaurant[]) => this.setState({
-            restaurants
-        });
-        RestaurantService.getAll().then(updateState);
-    }
+    const options: DropdownItemProps[] = restaurants.map(restaurant => {
+        const name = restaurant.name;
+        return {key: name, text: name, value: name};
+    });
+    return <Dropdown
+        placeholder="Select restaurant..."
+        clearable
+        selection
+        options={options}
+        onChange={handleChange}
+    />;
+};
 
-    handleChange(event: any, data: DropdownProps): void {
-        const restaurant = this.state.restaurants.find(r => r.name === data.value);
-        this.props.handleRestaurantChange(restaurant);
-    }
-
-    render(): React.ReactNode {
-        const options: DropdownItemProps[] = this.state.restaurants.map(restaurant => {
-            const name = restaurant.name;
-            return {key: name, text: name, value: name};
-        });
-        return <Dropdown
-            placeholder="Select restaurant..."
-            clearable
-            selection
-            options={options}
-            onChange={this.handleChange}
-        />;
-    }
-}
+export default RestaurantList;
