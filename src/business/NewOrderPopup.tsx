@@ -11,7 +11,7 @@ interface NewOrderPopupProps {
 }
 
 const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
-    const [restaurant, setRestaurant] = useState<Restaurant | undefined>(undefined);
+    const [restaurant, setRestaurant] = useState<Restaurant | undefined>();
     const [popupOpen, setPopupOpen] = useState(false);
 
     function handleConfirm() {
@@ -31,7 +31,7 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
         setPopupOpen(true);
     }
 
-    const button = <Button color={"green"} onClick={handleConfirm}>Create</Button>;
+    const confirmButton = <Button color={"green"} onClick={handleConfirm}>Create</Button>;
 
     return (
         <Popup
@@ -43,7 +43,7 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
             flowing
         >
             <RestaurantList handleRestaurantChange={setRestaurant}/>
-            {restaurant !== undefined ? button : null}
+            {restaurant !== undefined ? confirmButton : null}
         </Popup>
     );
 };
