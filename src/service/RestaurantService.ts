@@ -5,7 +5,7 @@ import BackendService from "./BackendService";
 export default class RestaurantService {
 
     static getAll(): Promise<Restaurant[]> {
-        return BackendService.getCollection("restaurants");
+        return BackendService.getAllFromPaginatedCollection("restaurants");
     }
 
     static getFromOrder(order: Order): Promise<Restaurant> {

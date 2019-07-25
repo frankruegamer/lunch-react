@@ -4,7 +4,7 @@ import BackendService from "./BackendService";
 export default class PersonService {
 
     static getAll(): Promise<Person[]> {
-        return BackendService.getCollection("persons");
+        return BackendService.getAllFromPaginatedCollection("persons", {sort: "name"});
     }
 
     static createNew(name: string): Promise<Person> {

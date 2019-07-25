@@ -13,7 +13,7 @@ interface Parameters {
 }
 
 interface Body {
-    [key: string]: string
+    [key: string]: string;
 }
 
 export default class BackendService {
@@ -30,6 +30,20 @@ export default class BackendService {
         return fetch(BackendService.getUrl(path).valueOf())
             .then(response => response.json())
             .then(json => new Hal<T>(json).objects);
+    }
+
+    static async getAllFromPaginatedCollection<T extends Linkable<Links>>(path: string,
+                                                                          params: Parameters = {}): Promise<T[]> {
+        const hal = await this.getPaginatedCollection<T>(path, params);
+        const promises: Array<Promise<Hal<T>>> = [];
+        for (let i = 1; i < hal.page.totalPages; i++) {
+            const promise = this.getPaginatedCollection<T>(path, {...params, page: i});
+            promises.push(promise);
+        }
+        const responses = await Promise.all(promises);
+        const results: T[] = hal.objects;
+        responses.forEach(result => results.push(...result.objects));
+        return results;
     }
 
     static getPaginatedCollection<T extends Linkable<Links>>(path: string, params: Parameters = {}): Promise<Hal<T>> {
