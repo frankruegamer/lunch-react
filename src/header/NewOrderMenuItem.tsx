@@ -9,7 +9,7 @@ interface NewOrderProps {
 
 const NewOrderMenuItem: React.FC<NewOrderProps> = ({onNewOrder}) => {
     const menuItem = (
-        <Menu.Item as="a" color="green">
+        <Menu.Item color="green">
             <Icon name="add" color="green"/>
             New order
         </Menu.Item>

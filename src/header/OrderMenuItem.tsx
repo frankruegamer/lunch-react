@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import OrderList from "../business/OrderList";
 import Order from "../domain/Order";
 import OrderService from "../service/OrderService";
@@ -8,59 +8,33 @@ interface OrderMenuItemProps {
     onOrderChange: (order: Order) => void;
 }
 
-interface OrderMenuItemState {
-    orders: Order[];
-}
+const OrderMenuItem: React.FC<OrderMenuItemProps> = ({order, onOrderChange}) => {
+    const [orders, setOrders] = useState<Order[]>([]);
 
-export default class OrderMenuItem extends React.Component<OrderMenuItemProps, OrderMenuItemState> {
+    const firstRender = useRef(true);
 
-    constructor(props: Readonly<OrderMenuItemProps>) {
-        super(props);
-        this.state = {
-            orders: []
-        };
-        this.addInitialOrders = this.addInitialOrders.bind(this);
-        this.onItemChange = this.onItemChange.bind(this);
-    }
-
-    componentDidMount(): void {
+    useEffect(() => {
         OrderService.getLast10()
-            .then(this.addInitialOrders);
+            .then(o => {
+                setOrders(o);
+                if (firstRender.current && o.length > 0) {
+                    firstRender.current = false;
+                    onOrderChange(o[0]);
+                }
+            });
+    }, [order, onOrderChange]);
+
+    function handleItemChange(timestamp: string): void {
+        const current = orders.find(o => o.timestamp.toISOString() === timestamp);
+        onOrderChange(current as Order);
     }
 
-    componentDidUpdate(prevProps: Readonly<OrderMenuItemProps>): void {
-        if (prevProps.order !== this.props.order) {
-            OrderService.getLast10()
-                .then(orders => this.setState({orders}));
-        }
+    if (orders.length <= 0) {
+        return null;
     }
+    return (
+        <OrderList orders={orders} onItemChange={handleItemChange} value={order}/>
+    );
+};
 
-    addInitialOrders(orders: Order[]): void {
-        this.setState({
-            orders
-        });
-        if (orders[0] !== undefined) {
-            this.props.onOrderChange(orders[0]);
-        }
-    }
-
-    onItemChange(timestamp: string): void {
-        const current = this.state.orders.find(order => order.timestamp.toISOString() === timestamp);
-        if (current !== undefined) {
-            this.props.onOrderChange(current);
-        }
-    }
-
-    render(): React.ReactNode {
-        const {orders} = this.state;
-        const {order} = this.props;
-        if (orders.length > 0) {
-            return (
-                <OrderList orders={orders} onItemChange={this.onItemChange} value={order}/>
-            );
-        } else {
-            return null;
-        }
-    }
-
-}
+export default OrderMenuItem;

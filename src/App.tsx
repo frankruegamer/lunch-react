@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import "./App.css";
 import {Grid} from "semantic-ui-react";
 import FoodSearch from "./business/FoodSearch";
@@ -18,12 +18,12 @@ const App: React.FC = () => {
     const [state, setState] = useState<AppState>({});
     const [person, setPerson] = useState<Person>();
 
-    function handleOrderChange(order: Order) {
+    const handleOrderChange = useCallback((order: Order) => {
         RestaurantService.getFromOrder(order)
             .then(restaurant => {
                 setState({order, restaurant});
             });
-    }
+    }, []);
 
     function logout() {
         setPerson(undefined);
