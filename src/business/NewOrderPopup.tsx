@@ -43,7 +43,7 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
             flowing
         >
             <RestaurantList handleRestaurantChange={setRestaurant}/>
-            {restaurant !== undefined ? confirmButton : null}
+            {restaurant !== undefined && confirmButton}
         </Popup>
     );
 };

@@ -38,7 +38,7 @@ const App: React.FC = () => {
                 onLogout={logout}
             />
             <div className="App">
-                {person !== undefined ? <FoodList restaurant={state.restaurant}/> : null}
+                {person !== undefined && <FoodList restaurant={state.restaurant}/>}
             </div>
         </>
     );
