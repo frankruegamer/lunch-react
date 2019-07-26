@@ -1,12 +1,12 @@
 import React from "react";
-import {Input, Pagination, PaginationProps, Search, SearchProps} from "semantic-ui-react";
+import {Input, Pagination, PaginationProps} from "semantic-ui-react";
 import Food from "../domain/Food";
 import Restaurant from "../domain/Restaurant";
 import FoodService from "../service/FoodService";
 import FoodTable from "./FoodTable";
 
 interface FoodListProps {
-    restaurant?: Restaurant;
+    restaurant: Restaurant;
 }
 
 interface FoodListState {
@@ -28,7 +28,6 @@ export default class FoodList extends React.Component<FoodListProps, FoodListSta
         };
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
         this.updateFoodList = this.updateFoodList.bind(this);
     }
 
@@ -49,13 +48,6 @@ export default class FoodList extends React.Component<FoodListProps, FoodListSta
     }
 
     handleInputChange(event: any, {value}: { value: string }): void {
-        this.updateFoodList(value, 1);
-    }
-
-    handleSearchChange(event: any, {value}: SearchProps): void {
-        if (value === undefined) {
-            return;
-        }
         this.updateFoodList(value, 1);
     }
 
@@ -80,16 +72,9 @@ export default class FoodList extends React.Component<FoodListProps, FoodListSta
 
     render(): React.ReactNode {
         const {input, foods, totalPages, activePage} = this.state;
-        const results = foods.map(food => ({
-            description: food.description,
-            key: food.name + food.description,
-            price: food.price.toFixed(2) + " €",
-            title: food.name
-        }));
         return (
             <>
                 <Input placeholder="Search food..." value={input} onChange={this.handleInputChange}/>
-                <Search value={input} onSearchChange={this.handleSearchChange} results={results}/>
                 <Pagination activePage={activePage} totalPages={totalPages} onPageChange={this.handlePageChange}/>
                 <FoodTable foods={foods}/>
             </>

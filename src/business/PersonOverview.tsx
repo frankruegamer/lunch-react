@@ -38,16 +38,15 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, person}) => {
         );
     });
 
-    const style = {width: "40%"};
     if (positions.length > 0) {
         return (
-            <Segment.Group style={style}>
+            <Segment.Group>
                 {items}
             </Segment.Group>
         );
     } else {
         return (
-            <Segment placeholder style={style}>
+            <Segment placeholder>
                 <Header icon>
                     <Icon name="food"/>
                     No food has been added for this order.

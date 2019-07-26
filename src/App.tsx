@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import "./App.css";
+import {Grid} from "semantic-ui-react";
+import FoodSearch from "./business/FoodSearch";
 import PersonOverview from "./business/PersonOverview";
 import Order from "./domain/Order";
 import Person from "./domain/Person";
@@ -28,12 +30,19 @@ const App: React.FC = () => {
     }
 
     const MainContent = (() => {
-        if (state.order === undefined || person === undefined) {
+        if (state.order === undefined || person === undefined || state.restaurant === undefined) {
             return null;
         }
         return (
             <div className="App">
-                <PersonOverview order={state.order} person={person}/>
+                <Grid columns={2}>
+                    <Grid.Column>
+                        <PersonOverview order={state.order} person={person}/>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <FoodSearch restaurant={state.restaurant}/>
+                    </Grid.Column>
+                </Grid>
             </div>
         );
     });

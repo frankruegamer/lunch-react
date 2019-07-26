@@ -10,19 +10,15 @@ export default class FoodService {
         return BackendService.get(link);
     }
 
-    static getFromRegex(regex: string, page: number, restaurant?: Restaurant): Promise<Hal<Food>> {
+    static getFromRegex(regex: string, page: number, restaurant: Restaurant): Promise<Hal<Food>> {
         const params: { [key: string]: any } = {
             page: page - 1,
             regex,
-            size: 10,
+            restaurant: restaurant.links.self.href,
+            size: 6,
             sort: "name"
         };
-        if (restaurant !== undefined) {
-            params.restaurant = restaurant.links.self.href;
-            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegexAndRestaurant", params);
-        } else {
-            return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegex", params);
-        }
+        return BackendService.getPaginatedCollection<Food>("foods/search/findByNameRegexAndRestaurant", params);
     }
 
 }
