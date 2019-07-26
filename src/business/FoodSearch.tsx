@@ -23,13 +23,22 @@ const FoodSearch: React.FC<FoodSearchProps> = ({restaurant}) => {
         setInput(value as string);
     }
 
+    function handleResultSelect() {
+        setInput("");
+    }
+
     const results = foods.map(food => ({
         description: food.description,
         key: food.name + food.description,
         price: food.price.toFixed(2) + " €",
         title: food.name
     }));
-    return <Search value={input} onSearchChange={handleSearchChange} results={results}/>;
+    return <Search
+        value={input}
+        onSearchChange={handleSearchChange}
+        onResultSelect={handleResultSelect}
+        results={results}
+    />;
 };
 
 export default FoodSearch;
