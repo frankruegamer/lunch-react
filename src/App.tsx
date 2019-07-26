@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./App.css";
-import FoodList from "./business/FoodList";
+import PersonOverview from "./business/PersonOverview";
 import Order from "./domain/Order";
 import Person from "./domain/Person";
 import Restaurant from "./domain/Restaurant";
@@ -27,6 +27,17 @@ const App: React.FC = () => {
         setPerson(undefined);
     }
 
+    const MainContent = (() => {
+        if (state.order === undefined || person === undefined) {
+            return null;
+        }
+        return (
+            <div className="App">
+                <PersonOverview order={state.order} person={person}/>
+            </div>
+        );
+    });
+
     return (
         <>
             <Header
@@ -37,9 +48,7 @@ const App: React.FC = () => {
                 onPersonChange={setPerson}
                 onLogout={logout}
             />
-            <div className="App">
-                {person !== undefined && <FoodList restaurant={state.restaurant}/>}
-            </div>
+            <MainContent/>
         </>
     );
 };

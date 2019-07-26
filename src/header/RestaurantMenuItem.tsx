@@ -7,15 +7,14 @@ interface RestaurantMenuItemProps {
 }
 
 const RestaurantMenuItem: React.FC<RestaurantMenuItemProps> = ({restaurant}) => {
-    if (restaurant !== undefined) {
-        return (
-            <Menu.Item>
-                {restaurant.name}
-            </Menu.Item>
-        );
-    } else {
+    if (restaurant === undefined) {
         return null;
     }
+    return (
+        <Menu.Item>
+            {restaurant.name}
+        </Menu.Item>
+    );
 };
 
 export default RestaurantMenuItem;

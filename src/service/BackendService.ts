@@ -26,10 +26,9 @@ export default class BackendService {
             .then(json => extend(json, new Linkable()));
     }
 
-    static getCollection<T extends Linkable<Links>>(path: string): Promise<T[]> {
-        return fetch(BackendService.getUrl(path).valueOf())
-            .then(response => response.json())
-            .then(json => new Hal<T>(json).objects);
+    static getCollection<T extends Linkable<Links>>(path: string | Link, params: Parameters = {}): Promise<T[]> {
+        return fetch(BackendService.getUrl(path, params).valueOf())
+            .then(async response => response.ok ? new Hal<T>(await response.json()).objects : []);
     }
 
     static async getAllFromPaginatedCollection<T extends Linkable<Links>>(path: string,
@@ -69,9 +68,14 @@ export default class BackendService {
             .catch(() => false);
     }
 
-    private static getUrl(path: string, params?: Parameters): uri.URI {
-        const uri = URI(BackendService.baseURL)
-            .path(URI.joinPaths(BackendService.baseURL, path).path());
+    private static getUrl(path: string | Link, params?: Parameters): uri.URI {
+        let uri;
+        if (typeof path === "string") {
+            uri = URI(BackendService.baseURL)
+                .path(URI.joinPaths(BackendService.baseURL, path).path());
+        } else {
+            uri = URI(path.href);
+        }
         return params === undefined ? uri : uri.query(params);
     }
 
