@@ -3,7 +3,7 @@
 }
 
 .App {
-    margin: var(--header-margin) 10px 10px;
+    padding: var(--header-margin) 10px 10px;
 }
 
 .App-logo {
