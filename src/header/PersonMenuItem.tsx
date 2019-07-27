@@ -41,6 +41,7 @@ const PersonMenuItem: React.FC<PersonMenuItemProps> = ({onPersonChange}) => {
             options={options}
             onAddItem={createAccount}
             onChange={handleChange}
+            style={{border: 0}}
         />
     );
 };
