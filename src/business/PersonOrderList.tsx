@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Header, Icon, Label, Segment} from "semantic-ui-react";
+import {Grid, Header, Icon, Label, Segment, Transition} from "semantic-ui-react";
 import PersonOrderPosition from "../domain/PersonOrderPosition";
 
 interface PersonOrderListProps {
@@ -28,9 +28,9 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({positions}) => {
 
     if (positions.length > 0) {
         return (
-            <Segment.Group>
+            <Transition.Group as={Segment.Group} animation="browse">
                 {items}
-            </Segment.Group>
+            </Transition.Group>
         );
     } else {
         return (
