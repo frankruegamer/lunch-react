@@ -1,6 +1,7 @@
 import React from "react";
-import {Button, Grid, Header, Label, Popup, Segment} from "semantic-ui-react";
+import {Button, Popup, Segment} from "semantic-ui-react";
 import PersonOrderPosition from "../domain/PersonOrderPosition";
+import FoodPriceGrid from "./FoodPriceGrid";
 
 interface PersonOrderListItemProps {
     position: PersonOrderPosition;
@@ -16,26 +17,11 @@ const PersonOrderListItem: React.FC<PersonOrderListItemProps> = ({position, onRe
         padding: 0
     };
     const removeItem = () => onRemove(position);
-    const segment = (
-        <Segment>
-            <Grid columns={2}>
-                <Grid.Row>
-                    <Grid.Column width={12} verticalAlign="middle">
-                        <Header as="h4">{food.name}</Header>
-                        {food.description && <Header.Subheader> {food.description} </Header.Subheader>}
-                    </Grid.Column>
-                    <Grid.Column width={4} textAlign="right">
-                        <Label tag color="green">{food.price.toFixed(2) + " €"}</Label>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </Segment>
-    );
     return (
         <Popup
             key={position.links.self.href}
             basic
-            trigger={segment}
+            trigger={<Segment><FoodPriceGrid {...food}/></Segment>}
             position="right center"
             mouseEnterDelay={500}
             mouseLeaveDelay={200}
