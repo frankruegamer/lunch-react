@@ -16,10 +16,8 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
 
     function handleConfirm() {
         setPopupOpen(false);
-        // restaurant should be defined because the button doesn't show when it is not
-        if (restaurant !== undefined) {
-            OrderService.createNew(restaurant).then(onNewOrder);
-        }
+        // restaurant should be defined because the button is disabled when it is not
+        OrderService.createNew(restaurant as Restaurant).then(onNewOrder);
     }
 
     function handleClose() {
@@ -31,8 +29,6 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
         setPopupOpen(true);
     }
 
-    const confirmButton = <Button color={"green"} onClick={handleConfirm}>Create</Button>;
-
     return (
         <Popup
             trigger={trigger}
@@ -43,7 +39,7 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
             flowing
         >
             <RestaurantList handleRestaurantChange={setRestaurant}/>
-            {restaurant !== undefined && confirmButton}
+            <Button disabled={restaurant === undefined} color={"green"} onClick={handleConfirm}>Create</Button>
         </Popup>
     );
 };
