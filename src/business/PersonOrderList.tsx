@@ -10,7 +10,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({positions}) => {
     const items = positions.map(p => {
         const food = p.food;
         return (
-            <Segment key={food.name + food.description}>
+            <Segment key={p.links.self.href}>
                 <Grid columns={2}>
                     <Grid.Row>
                         <Grid.Column width={12} verticalAlign="middle">
