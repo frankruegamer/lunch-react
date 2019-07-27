@@ -23,6 +23,10 @@ export default class PersonOrderService {
             .then(PersonOrderService.fetchFood);
     }
 
+    static deletePosition(position: PersonOrderPosition) {
+        return BackendService.delete(position.links.self);
+    }
+
     static async createPersonOrder(food: Food, params: CreateOrderParameters): Promise<PersonOrderPosition> {
         const {personOrder, order, person} = params;
         let newOrder;

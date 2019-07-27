@@ -1,36 +1,19 @@
 import * as React from "react";
-import {Grid, Header, Icon, Label, Segment, Transition} from "semantic-ui-react";
+import {Header, Icon, Segment} from "semantic-ui-react";
 import PersonOrderPosition from "../domain/PersonOrderPosition";
+import PersonOrderListItem from "./PersonOrderListItem";
 
 interface PersonOrderListProps {
     positions: PersonOrderPosition[];
+    onRemove: (position: PersonOrderPosition) => void;
 }
 
-const PersonOrderList: React.FC<PersonOrderListProps> = ({positions}) => {
-    const items = positions.map(p => {
-        const food = p.food;
-        return (
-            <Segment key={p.links.self.href}>
-                <Grid columns={2}>
-                    <Grid.Row>
-                        <Grid.Column width={12} verticalAlign="middle">
-                            <Header as="h4">{food.name}</Header>
-                            {food.description && <Header.Subheader> {food.description} </Header.Subheader>}
-                        </Grid.Column>
-                        <Grid.Column width={4} textAlign="right">
-                            <Label tag color="green">{food.price.toFixed(2) + " €"}</Label>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Segment>
-        );
-    });
-
+const PersonOrderList: React.FC<PersonOrderListProps> = ({positions, onRemove}) => {
     if (positions.length > 0) {
         return (
-            <Transition.Group as={Segment.Group} animation="browse">
-                {items}
-            </Transition.Group>
+            <Segment.Group>
+                {positions.map(p => <PersonOrderListItem key={p.links.self.href} position={p} onRemove={onRemove}/>)}
+            </Segment.Group>
         );
     } else {
         return (

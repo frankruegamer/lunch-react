@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Grid} from "semantic-ui-react";
 import Food from "../domain/Food";
 import Order from "../domain/Order";
@@ -18,14 +18,15 @@ interface PersonOverviewProps {
 }
 
 const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, person}) => {
-    const [newPosition, setNewPosition] = useState<PersonOrderPosition>();
+    // used as dependency to trigger rendering
+    const [positionChange, setPositionChange] = useState<number>();
 
     const [personOrder, setPersonOrder] = useState<PersonOrder>();
     useEffect(() => {
         PersonOrderService.getByPerson(order, person)
             .then(setPersonOrder)
             .catch(() => null);
-    }, [newPosition, order, person]);
+    }, [positionChange, order, person]);
 
     const [positions, setPositions] = useState<PersonOrderPosition[]>([]);
     useEffect(() => {
@@ -37,17 +38,26 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, perso
         }
     }, [personOrder]);
 
+    const orderChange = useCallback(() => {
+        setPositionChange(Math.random());
+    }, []);
+
     function addFood(food: Food) {
         PersonOrderService.createPersonOrder(food, {personOrder, order, person})
-            .then(setNewPosition);
+            .then(orderChange);
+    }
+
+    function removePosition(position: PersonOrderPosition) {
+        PersonOrderService.deletePosition(position)
+            .then(orderChange);
     }
 
     return (
         <Grid columns={2}>
             <Grid.Column>
-                <PersonOrderList positions={positions}/>
+                <PersonOrderList positions={positions} onRemove={removePosition}/>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column style={{paddingLeft: "3em"}}>
                 <FoodSearch restaurant={restaurant} onFoodSelect={addFood}/>
             </Grid.Column>
         </Grid>

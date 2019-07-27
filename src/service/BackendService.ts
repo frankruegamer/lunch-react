@@ -67,6 +67,12 @@ export default class BackendService {
             .then(json => extend(json, new Linkable()));
     }
 
+    static delete(link: Link): Promise<Response> {
+        return fetch(BackendService.getUrl(link).valueOf(), {
+            method: "DELETE"
+        });
+    }
+
     static testConnection() {
         return fetch(BackendService.baseURL)
             .then(() => true)
