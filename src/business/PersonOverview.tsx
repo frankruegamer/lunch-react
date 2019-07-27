@@ -1,59 +1,57 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Grid, Header, Icon, Label, Segment} from "semantic-ui-react";
+import {Grid} from "semantic-ui-react";
+import Food from "../domain/Food";
 import Order from "../domain/Order";
 import Person from "../domain/Person";
+import PersonOrder from "../domain/PersonOrder";
 import PersonOrderPosition from "../domain/PersonOrderPosition";
+import Restaurant from "../domain/Restaurant";
 import PersonOrderService from "../service/PersonOrderService";
+import FoodSearch from "./FoodSearch";
+import PersonOrderList from "./PersonOrderList";
 
 interface PersonOverviewProps {
     order: Order;
+    restaurant: Restaurant;
     person: Person;
 }
 
-const PersonOverview: React.FC<PersonOverviewProps> = ({order, person}) => {
-    const [positions, setPositions] = useState<PersonOrderPosition[]>([]);
+const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, person}) => {
+    const [newPosition, setNewPosition] = useState<PersonOrderPosition>();
 
+    const [personOrder, setPersonOrder] = useState<PersonOrder>();
     useEffect(() => {
         PersonOrderService.getByPerson(order, person)
-            .then(setPositions);
-    }, [order, person]);
+            .then(setPersonOrder)
+            .catch(() => null);
+    }, [newPosition, order, person]);
 
-    const items = positions.map(p => {
-        const food = p.food;
-        return (
-            <Segment key={food.name + food.description}>
-                <Grid columns={2}>
-                    <Grid.Row>
-                        <Grid.Column width={12} verticalAlign="middle">
-                            <Header as="h4">{food.name}</Header>
-                            {food.description && <Header.Subheader> {food.description} </Header.Subheader>}
-                        </Grid.Column>
-                        <Grid.Column width={4} textAlign="right">
-                            <Label tag color="green">{food.price.toFixed(2) + " €"}</Label>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Segment>
-        );
-    });
+    const [positions, setPositions] = useState<PersonOrderPosition[]>([]);
+    useEffect(() => {
+        if (personOrder === undefined) {
+            setPositions([]);
+        } else {
+            PersonOrderService.getPositions(personOrder)
+                .then(setPositions);
+        }
+    }, [personOrder]);
 
-    if (positions.length > 0) {
-        return (
-            <Segment.Group>
-                {items}
-            </Segment.Group>
-        );
-    } else {
-        return (
-            <Segment placeholder>
-                <Header icon>
-                    <Icon name="food"/>
-                    No food has been added for this order.
-                </Header>
-            </Segment>
-        );
+    function addFood(food: Food) {
+        PersonOrderService.createPersonOrder(food, {personOrder, order, person})
+            .then(setNewPosition);
     }
+
+    return (
+        <Grid columns={2}>
+            <Grid.Column>
+                <PersonOrderList positions={positions}/>
+            </Grid.Column>
+            <Grid.Column>
+                <FoodSearch restaurant={restaurant} onFoodSelect={addFood}/>
+            </Grid.Column>
+        </Grid>
+    );
 };
 
 export default PersonOverview;

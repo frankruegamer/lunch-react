@@ -20,10 +20,15 @@ export default class BackendService {
 
     private static baseURL = "http://localhost:8080/api/";
 
-    static get<T extends Linkable<Links>>(link: Link): Promise<T> {
-        return fetch(link.href)
-            .then(response => response.json())
-            .then(json => extend(json, new Linkable()));
+    static get<T extends Linkable<Links>>(link: Link, params: Parameters = {}): Promise<T> {
+        return fetch(BackendService.getUrl(link, params).valueOf())
+            .then(async response => {
+                if (response.ok) {
+                    return extend(await response.json(), new Linkable());
+                } else {
+                    throw new Error(response.statusText);
+                }
+            });
     }
 
     static getCollection<T extends Linkable<Links>>(path: string | Link, params: Parameters = {}): Promise<T[]> {
