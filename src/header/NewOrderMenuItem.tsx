@@ -1,6 +1,6 @@
 import React from "react";
 import {Icon, Menu} from "semantic-ui-react";
-import NewOrderPopup from "../business/NewOrderPopup";
+import NewOrderPopup from "./NewOrderPopup";
 import Order from "../domain/Order";
 
 interface NewOrderProps {

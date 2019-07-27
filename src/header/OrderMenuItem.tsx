@@ -1,5 +1,5 @@
 import React from "react";
-import OrderList from "../business/OrderList";
+import OrderList from "./OrderList";
 import Order from "../domain/Order";
 
 interface OrderMenuItemProps {

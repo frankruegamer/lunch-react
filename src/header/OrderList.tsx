@@ -9,12 +9,11 @@ interface OrderListProps {
     value?: Order;
 }
 
-const OrderList: React.FC<OrderListProps> = (props) => {
+const OrderList: React.FC<OrderListProps> = ({onItemChange, orders, value}) => {
     function handleChange(event: any, data: DropdownProps): void {
-        props.onItemChange(data.value as string);
+        onItemChange(data.value as string);
     }
 
-    const {orders, value} = props;
     const options = orders.map(toOption);
     const option = toOption(value).value;
     return <Dropdown item lazyLoad options={options} onChange={handleChange} value={option}/>;
