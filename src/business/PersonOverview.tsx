@@ -28,16 +28,6 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, perso
             .catch(() => null);
     }, [positionChange, order, person]);
 
-    const [positions, setPositions] = useState<PersonOrderPosition[]>([]);
-    useEffect(() => {
-        if (personOrder === undefined) {
-            setPositions([]);
-        } else {
-            PersonOrderService.getPositions(personOrder)
-                .then(setPositions);
-        }
-    }, [personOrder]);
-
     const orderChange = useCallback(() => {
         setPositionChange(Math.random());
     }, []);
@@ -55,7 +45,7 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, perso
     return (
         <Grid columns={2}>
             <Grid.Column>
-                <PersonOrderList positions={positions} onRemove={removePosition}/>
+                <PersonOrderList personOrder={personOrder} onRemove={removePosition}/>
             </Grid.Column>
             <Grid.Column style={{paddingLeft: "3em"}}>
                 <FoodSearch restaurant={restaurant} onFoodSelect={addFood}/>

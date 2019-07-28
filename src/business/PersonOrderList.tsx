@@ -1,20 +1,32 @@
 import * as React from "react";
+import {useEffect, useState} from "react";
 import {Divider, Header, Icon, Segment} from "semantic-ui-react";
+import PersonOrder from "../domain/PersonOrder";
 import PersonOrderPosition from "../domain/PersonOrderPosition";
+import PersonOrderService from "../service/PersonOrderService";
 import FoodPriceGrid from "./FoodPriceGrid";
 import PersonOrderListItem from "./PersonOrderListItem";
 
 interface PersonOrderListProps {
-    positions: PersonOrderPosition[];
+    personOrder?: PersonOrder;
     onRemove: (position: PersonOrderPosition) => void;
 }
 
-const PersonOrderList: React.FC<PersonOrderListProps> = ({positions, onRemove}) => {
-    if (positions.length > 0) {
+const PersonOrderList: React.FC<PersonOrderListProps> = ({personOrder, onRemove}) => {
+    const [positions, setPositions] = useState<PersonOrderPosition[]>([]);
+    useEffect(() => {
+        if (personOrder === undefined) {
+            setPositions([]);
+        } else {
+            PersonOrderService.getPositions(personOrder)
+                .then(setPositions);
+        }
+    }, [personOrder]);
+
+    if (personOrder !== undefined && positions.length > 0) {
         const segments = positions.map(p => (
             <PersonOrderListItem key={p.links.self.href} position={p} onRemove={onRemove}/>
         ));
-        const total = positions.reduce((v, p) => v + p.food.price, 0);
         return (
             <>
                 <Segment.Group>
@@ -22,7 +34,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({positions, onRemove}) 
                 </Segment.Group>
                 <Divider/>
                 <Segment>
-                    <FoodPriceGrid name="Total" price={total}/>
+                    <FoodPriceGrid name={"Total: " + positions.length} price={personOrder.price}/>
                 </Segment>
             </>
         );

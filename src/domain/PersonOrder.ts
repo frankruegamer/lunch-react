@@ -10,5 +10,6 @@ interface PersonOrderLinks extends Links {
 }
 
 export default interface PersonOrder extends Linkable<PersonOrderLinks> {
-
+    price: number;
+    payed: boolean;
 }
