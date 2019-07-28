@@ -28,13 +28,11 @@ const AppMenu: React.FC<AppMenuProps> = ({order, restaurant, person}) => {
         <>
             <Menu pointing secondary>
                 <Menu.Item
-                    content={person.name}
                     name={Item.me}
                     active={item === Item.me}
                     onClick={handleClick}
                 />
                 <Menu.Item
-                    content="Overview"
                     name={Item.overview}
                     active={item === Item.overview}
                     onClick={handleClick}
