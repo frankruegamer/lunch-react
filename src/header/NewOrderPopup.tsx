@@ -3,7 +3,7 @@ import {Button, Popup} from "semantic-ui-react";
 import Order from "../domain/Order";
 import Restaurant from "../domain/Restaurant";
 import OrderService from "../service/OrderService";
-import RestaurantList from "./RestaurantList";
+import RestaurantDropdown from "./RestaurantDropdown";
 
 interface NewOrderPopupProps {
     trigger: React.ReactNode;
@@ -38,7 +38,7 @@ const NewOrderPopup: React.FC<NewOrderPopupProps> = ({trigger, onNewOrder}) => {
             onClose={handleClose}
             flowing
         >
-            <RestaurantList handleRestaurantChange={setRestaurant}/>
+            <RestaurantDropdown handleRestaurantChange={setRestaurant}/>
             <Button disabled={restaurant === undefined} color={"green"} onClick={handleConfirm}>Create</Button>
         </Popup>
     );

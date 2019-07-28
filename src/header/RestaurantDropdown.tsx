@@ -3,11 +3,11 @@ import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import Restaurant from "../domain/Restaurant";
 import RestaurantService from "../service/RestaurantService";
 
-interface RestaurantListProps {
+interface RestaurantDropdownProps {
     handleRestaurantChange: (restaurant?: Restaurant) => void;
 }
 
-const RestaurantList: React.FC<RestaurantListProps> = ({handleRestaurantChange}) => {
+const RestaurantDropdown: React.FC<RestaurantDropdownProps> = ({handleRestaurantChange}) => {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
     useEffect(() => {
@@ -32,4 +32,4 @@ const RestaurantList: React.FC<RestaurantListProps> = ({handleRestaurantChange})
     />;
 };
 
-export default RestaurantList;
+export default RestaurantDropdown;

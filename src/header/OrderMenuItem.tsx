@@ -1,6 +1,6 @@
 import React from "react";
-import OrderList from "./OrderList";
 import Order from "../domain/Order";
+import OrderDropdown from "./OrderDropdown";
 
 interface OrderMenuItemProps {
     order?: Order;
@@ -18,7 +18,7 @@ const OrderMenuItem: React.FC<OrderMenuItemProps> = ({order, orders, onOrderChan
         return null;
     }
     return (
-        <OrderList orders={orders} onItemChange={handleItemChange} value={order}/>
+        <OrderDropdown orders={orders} onItemChange={handleItemChange} value={order}/>
     );
 };
 
