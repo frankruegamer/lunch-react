@@ -21,8 +21,8 @@ const OrderMenuItem: React.FC<OrderMenuItemProps> = ({order, orders, onOrderChan
     return <Dropdown
         item
         lazyLoad
-        options={orders.map(toOption)}
-        value={toOption(order).value}
+        value={getIdentifier(order)}
+        options={toOptions(orders)}
         onChange={handleChange}
     />;
 };
@@ -31,13 +31,24 @@ function getIdentifier(order: Order) {
     return order.links.self.href;
 }
 
-function toOption(order: Order): DropdownItemProps {
-    const identifier = getIdentifier(order);
-    return {key: identifier, text: format(order.timestamp), value: identifier};
+function toOptions(orders: Order[]): DropdownItemProps[] {
+    const years = orders.map(o => o.timestamp.getFullYear());
+    const displayYears = !years.every(y => y === years[0]);
+    return orders.map(order => {
+        const identifier = getIdentifier(order);
+        return {key: identifier, text: format(order.timestamp, displayYears), value: identifier};
+    });
 }
 
-function format(date: Date) {
-    return dateFormat(date, "yyyy-mm-dd HH:MM:ss");
+function format(date: Date, displayYears: boolean) {
+    // @ts-ignore
+    dateFormat.i18n = {
+        ...dateFormat.i18n,
+        monthNames: [
+            "Jan", "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dez"
+        ]
+    };
+    return dateFormat(date, `dd. mmm${displayYears ? " yyyy" : ""} HH:MM`) + " Uhr";
 }
 
 export default OrderMenuItem;
