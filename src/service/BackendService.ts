@@ -13,15 +13,15 @@ interface Parameters {
 }
 
 interface Body {
-    [key: string]: string;
+    [key: string]: string | boolean;
 }
 
 export default class BackendService {
 
     private static baseURL = "http://localhost:8080/api/";
 
-    static get<T extends Linkable<Links>>(link: Link, params: Parameters = {}): Promise<T> {
-        return fetch(BackendService.getUrl(link, params).valueOf())
+    static get<T extends Linkable<Links>>(link: Link, params: Parameters = {}, signal?: AbortSignal): Promise<T> {
+        return fetch(BackendService.getUrl(link, params).valueOf(), {signal})
             .then(async response => {
                 if (response.ok) {
                     return extend(await response.json(), new Linkable());
@@ -71,6 +71,17 @@ export default class BackendService {
         return fetch(BackendService.getUrl(link).valueOf(), {
             method: "DELETE"
         });
+    }
+
+    static patch<T extends Linkable<Links>>(link: Link, body: Body = {}): Promise<T> {
+        return fetch(BackendService.getUrl(link).valueOf(), {
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PATCH",
+        }).then(response => response.json())
+            .then(json => extend(json, new Linkable()));
     }
 
     static testConnection() {

@@ -14,10 +14,12 @@ const FoodSearch: React.FC<FoodSearchProps> = ({restaurant, onFoodSelect}) => {
     const [foods, setFoods] = useState<Food[]>([]);
 
     useEffect(() => {
-        FoodService.getFromRegex(input, 0, restaurant)
-            .then(response => {
-                setFoods(response.objects);
-            });
+        if (input !== "") {
+            FoodService.getFromRegex(input, 0, restaurant)
+                .then(response => {
+                    setFoods(response.objects);
+                });
+        }
     }, [restaurant, input]);
 
     function handleSearchChange(event: any, {value}: SearchProps): void {

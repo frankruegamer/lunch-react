@@ -40,6 +40,10 @@ export default class PersonOrderService {
         return BackendService.post("personOrderPositions", positionBody);
     }
 
+    static pay(order: PersonOrder) {
+        return BackendService.patch<PersonOrder>(order.links.self, {payed: true});
+    }
+
     private static async fetchFood(positions: PersonOrderPosition[]): Promise<PersonOrderPosition[]> {
         for (const position of positions) {
             position.food = await FoodService.get(position.links.food);

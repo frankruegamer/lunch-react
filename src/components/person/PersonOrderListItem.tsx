@@ -5,10 +5,11 @@ import FoodPriceGrid from "./FoodPriceGrid";
 
 interface PersonOrderListItemProps {
     position: PersonOrderPosition;
+    disableRemove?: boolean;
     onRemove: (position: PersonOrderPosition) => void;
 }
 
-const PersonOrderListItem: React.FC<PersonOrderListItemProps> = ({position, onRemove}) => {
+const PersonOrderListItem: React.FC<PersonOrderListItemProps> = ({position, disableRemove, onRemove}) => {
     const food = position.food;
     const style = {
         border: 0,
@@ -19,6 +20,7 @@ const PersonOrderListItem: React.FC<PersonOrderListItemProps> = ({position, onRe
     const removeItem = () => onRemove(position);
     return (
         <Popup
+            disabled={disableRemove}
             key={position.links.self.href}
             basic
             trigger={<Segment><FoodPriceGrid {...food}/></Segment>}

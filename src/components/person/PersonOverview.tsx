@@ -8,6 +8,7 @@ import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderPosition from "../../domain/PersonOrderPosition";
 import Restaurant from "../../domain/Restaurant";
 import PersonOrderService from "../../service/PersonOrderService";
+import AlreadyPayedMessage from "./AlreadyPayedMessage";
 import FoodSearch from "./FoodSearch";
 import PersonOrderList from "./PersonOrderList";
 
@@ -42,13 +43,21 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, perso
             .then(orderChange);
     }
 
+    function handlePayment() {
+        if (personOrder !== undefined) {
+            PersonOrderService.pay(personOrder)
+                .then(setPersonOrder);
+        }
+    }
+
+    const search = <FoodSearch restaurant={restaurant} onFoodSelect={addFood}/>;
     return (
         <Grid columns={2}>
             <Grid.Column>
-                <PersonOrderList personOrder={personOrder} onRemove={removePosition}/>
+                <PersonOrderList personOrder={personOrder} onRemove={removePosition} onPayment={handlePayment}/>
             </Grid.Column>
             <Grid.Column style={{paddingLeft: "3em"}}>
-                <FoodSearch restaurant={restaurant} onFoodSelect={addFood}/>
+                {(personOrder === undefined || !personOrder.payed) ? search : <AlreadyPayedMessage/>}
             </Grid.Column>
         </Grid>
     );
