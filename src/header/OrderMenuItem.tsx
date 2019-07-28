@@ -1,6 +1,7 @@
+import dateFormat from "dateformat";
 import React from "react";
+import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import Order from "../domain/Order";
-import OrderDropdown from "./OrderDropdown";
 
 interface OrderMenuItemProps {
     order?: Order;
@@ -9,17 +10,34 @@ interface OrderMenuItemProps {
 }
 
 const OrderMenuItem: React.FC<OrderMenuItemProps> = ({order, orders, onOrderChange}) => {
-    function handleItemChange(timestamp: string): void {
-        const current = orders.find(o => o.timestamp.toISOString() === timestamp);
-        onOrderChange(current as Order);
+    function handleChange(event: any, {value}: DropdownProps): void {
+        const selectedOrder = orders.find(o => getIdentifier(o) === value);
+        onOrderChange(selectedOrder as Order);
     }
 
-    if (orders.length <= 0) {
+    if (order === undefined || orders.length <= 0) {
         return null;
     }
-    return (
-        <OrderDropdown orders={orders} onItemChange={handleItemChange} value={order}/>
-    );
+    return <Dropdown
+        item
+        lazyLoad
+        options={orders.map(toOption)}
+        value={toOption(order).value}
+        onChange={handleChange}
+    />;
 };
+
+function getIdentifier(order: Order) {
+    return order.links.self.href;
+}
+
+function toOption(order: Order): DropdownItemProps {
+    const identifier = getIdentifier(order);
+    return {key: identifier, text: format(order.timestamp), value: identifier};
+}
+
+function format(date: Date) {
+    return dateFormat(date, "yyyy-mm-dd HH:MM:ss");
+}
 
 export default OrderMenuItem;
