@@ -1,4 +1,3 @@
-import dateFormat from "dateformat";
 import React from "react";
 import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import Order from "../../domain/Order";
@@ -41,14 +40,16 @@ function toOptions(orders: Order[]): DropdownItemProps[] {
 }
 
 function format(date: Date, displayYears: boolean) {
-    // @ts-ignore
-    dateFormat.i18n = {
-        ...dateFormat.i18n,
-        monthNames: [
-            "Jan", "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dez"
-        ]
+    const options: Intl.DateTimeFormatOptions = {
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        month: "short",
     };
-    return dateFormat(date, `dd. mmm${displayYears ? " yyyy" : ""} HH:MM`) + " Uhr";
+    if (displayYears) {
+        options.year = "numeric";
+    }
+    return new Intl.DateTimeFormat("de-DE", options).format(date);
 }
 
 export default OrderMenuItem;
