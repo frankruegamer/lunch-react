@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Popup, Segment} from "semantic-ui-react";
-import PersonOrderPosition from "../domain/PersonOrderPosition";
+import PersonOrderPosition from "../../domain/PersonOrderPosition";
 import FoodPriceGrid from "./FoodPriceGrid";
 
 interface PersonOrderListItemProps {

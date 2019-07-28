@@ -1,8 +1,8 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {Dropdown, DropdownProps} from "semantic-ui-react";
-import Person from "../domain/Person";
-import PersonService from "../service/PersonService";
+import Person from "../../domain/Person";
+import PersonService from "../../service/PersonService";
 
 interface PersonMenuItemProps {
     onPersonChange: (person: Person) => void;

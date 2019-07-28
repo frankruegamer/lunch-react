@@ -1,13 +1,13 @@
 import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
 import {Grid} from "semantic-ui-react";
-import Food from "../domain/Food";
-import Order from "../domain/Order";
-import Person from "../domain/Person";
-import PersonOrder from "../domain/PersonOrder";
-import PersonOrderPosition from "../domain/PersonOrderPosition";
-import Restaurant from "../domain/Restaurant";
-import PersonOrderService from "../service/PersonOrderService";
+import Food from "../../domain/Food";
+import Order from "../../domain/Order";
+import Person from "../../domain/Person";
+import PersonOrder from "../../domain/PersonOrder";
+import PersonOrderPosition from "../../domain/PersonOrderPosition";
+import Restaurant from "../../domain/Restaurant";
+import PersonOrderService from "../../service/PersonOrderService";
 import FoodSearch from "./FoodSearch";
 import PersonOrderList from "./PersonOrderList";
 

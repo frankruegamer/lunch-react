@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon, Menu} from "semantic-ui-react";
+import Order from "../../domain/Order";
 import NewOrderPopup from "./NewOrderPopup";
-import Order from "../domain/Order";
 
 interface NewOrderProps {
     onNewOrder: (order: Order) => void;

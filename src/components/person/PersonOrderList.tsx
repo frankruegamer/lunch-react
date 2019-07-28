@@ -1,9 +1,9 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {Divider, Header, Icon, Segment} from "semantic-ui-react";
-import PersonOrder from "../domain/PersonOrder";
-import PersonOrderPosition from "../domain/PersonOrderPosition";
-import PersonOrderService from "../service/PersonOrderService";
+import PersonOrder from "../../domain/PersonOrder";
+import PersonOrderPosition from "../../domain/PersonOrderPosition";
+import PersonOrderService from "../../service/PersonOrderService";
 import FoodPriceGrid from "./FoodPriceGrid";
 import PersonOrderListItem from "./PersonOrderListItem";
 

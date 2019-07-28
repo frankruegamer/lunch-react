@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Image, Menu, Responsive} from "semantic-ui-react";
-import Order from "../domain/Order";
-import Person from "../domain/Person";
-import Restaurant from "../domain/Restaurant";
-import logo from "../logo.svg";
-import OrderService from "../service/OrderService";
+import Order from "../../domain/Order";
+import Person from "../../domain/Person";
+import Restaurant from "../../domain/Restaurant";
+import logo from "../../logo.svg";
+import OrderService from "../../service/OrderService";
 import LogoutMenuItem from "./LogoutMenuItem";
 import NewOrderMenuItem from "./NewOrderMenuItem";
 import OrderMenuItem from "./OrderMenuItem";

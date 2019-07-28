@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from "react";
 import "./App.css";
-import PersonOverview from "./business/PersonOverview";
+import Header from "./components/header/Header";
+import PersonOverview from "./components/person/PersonOverview";
 import Order from "./domain/Order";
 import Person from "./domain/Person";
 import Restaurant from "./domain/Restaurant";
-import Header from "./header/Header";
 import RestaurantService from "./service/RestaurantService";
 
 interface AppState {

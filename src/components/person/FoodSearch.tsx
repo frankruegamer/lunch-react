@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Search, SearchProps, SearchResultData} from "semantic-ui-react";
-import Food from "../domain/Food";
-import Restaurant from "../domain/Restaurant";
-import FoodService from "../service/FoodService";
+import Food from "../../domain/Food";
+import Restaurant from "../../domain/Restaurant";
+import FoodService from "../../service/FoodService";
 
 interface FoodSearchProps {
     restaurant: Restaurant;

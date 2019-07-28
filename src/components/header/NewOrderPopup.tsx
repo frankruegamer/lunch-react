@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Button, Popup} from "semantic-ui-react";
-import Order from "../domain/Order";
-import Restaurant from "../domain/Restaurant";
-import OrderService from "../service/OrderService";
+import Order from "../../domain/Order";
+import Restaurant from "../../domain/Restaurant";
+import OrderService from "../../service/OrderService";
 import RestaurantDropdown from "./RestaurantDropdown";
 
 interface NewOrderPopupProps {

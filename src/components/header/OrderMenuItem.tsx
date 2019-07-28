@@ -1,7 +1,7 @@
 import dateFormat from "dateformat";
 import React from "react";
 import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
-import Order from "../domain/Order";
+import Order from "../../domain/Order";
 
 interface OrderMenuItemProps {
     order?: Order;

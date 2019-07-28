@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Dropdown, DropdownItemProps, DropdownProps} from "semantic-ui-react";
-import Restaurant from "../domain/Restaurant";
-import RestaurantService from "../service/RestaurantService";
+import Restaurant from "../../domain/Restaurant";
+import RestaurantService from "../../service/RestaurantService";
 
 interface RestaurantDropdownProps {
     handleRestaurantChange: (restaurant?: Restaurant) => void;
