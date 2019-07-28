@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import "./App.css";
+import AppMenu from "./components/AppMenu";
 import Header from "./components/header/Header";
-import PersonOverview from "./components/person/PersonOverview";
 import Order from "./domain/Order";
 import Person from "./domain/Person";
 import Restaurant from "./domain/Restaurant";
@@ -31,9 +31,7 @@ const App: React.FC = () => {
         if (state.order === undefined || person === undefined || state.restaurant === undefined) {
             return null;
         }
-        return (
-            <PersonOverview order={state.order} restaurant={state.restaurant} person={person}/>
-        );
+        return <AppMenu order={state.order} restaurant={state.restaurant} person={person}/>;
     });
 
     return (
