@@ -10,7 +10,7 @@ interface FoodPriceGridProps {
 
 const FoodPriceGrid: React.FC<FoodPriceGridProps> = React.memo((props) => {
     return (
-        <Grid columns={2}>
+        <Grid>
             <Grid.Row>
                 <Grid.Column width={12} verticalAlign="middle">
                     <Header as="h4">{props.name}</Header>

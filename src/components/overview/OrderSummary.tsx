@@ -17,7 +17,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
     const [summaryItems, setSummaryItems] = useState<OrderSummaryItem[]>([]);
-    const [debts, setDebts] = useState<Array<PersonOrder & {person: Person}>>([]);
+    const [debts, setDebts] = useState<Array<PersonOrder & { person: Person }>>([]);
 
     const getSummary = useCallback(() => {
         PersonOrderService.getOrderSummary(order)
@@ -48,7 +48,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
 
     useEffect(() => {
         PersonOrderService.getDebts(order, debtors)
-            .then(setDebts);
+                          .then(setDebts);
     }, [debtors, order]);
 
     function handlePayment(personOrder: PersonOrder) {
@@ -66,6 +66,19 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
     });
 
     const totalDebts = debts.map(debt => debt.price).reduce((u, v) => u + v, 0);
+    const displayTotalDebts = totalDebts > 0;
+    const debtsRow = displayTotalDebts && (
+        <Grid.Row>
+            <Grid.Column width={12} verticalAlign="middle">
+                {labels}
+            </Grid.Column>
+            <Grid.Column width={4} textAlign="right">
+                <Label tag color="red">
+                    {PriceFormatter.format(totalDebts)}
+                </Label>
+            </Grid.Column>
+        </Grid.Row>
+    );
 
     if (summaryItems.length > 0) {
         return (
@@ -76,7 +89,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
                 <Divider/>
                 <Segment>
                     <Grid>
-                        <Grid.Row columns={2}>
+                        <Grid.Row>
                             <Grid.Column width={12} verticalAlign="middle">
                                 <Header as="h4">{"Total: " + numberOfPositions}</Header>
                             </Grid.Column>
@@ -86,16 +99,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row columns={2}>
-                            <Grid.Column width={12} verticalAlign="middle">
-                                {labels}
-                            </Grid.Column>
-                            <Grid.Column width={4} textAlign="right">
-                                <Label tag color="red">
-                                    {PriceFormatter.format(totalDebts)}
-                                </Label>
-                            </Grid.Column>
-                        </Grid.Row>
+                        {debtsRow}
                     </Grid>
                 </Segment>
             </>
