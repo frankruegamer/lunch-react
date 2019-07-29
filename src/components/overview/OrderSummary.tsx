@@ -1,6 +1,7 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Divider, Grid, Header, Label, Segment} from "semantic-ui-react";
 import Order from "../../domain/Order";
+import Person from "../../domain/Person";
 import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderService from "../../service/PersonOrderService";
 import SemanticColorPicker from "../../tools/SemanticColorPicker";
@@ -15,6 +16,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
     const [summaryItems, setSummaryItems] = useState<OrderSummaryItem[]>([]);
+    const [debts, setDebts] = useState<Array<PersonOrder & {person: Person}>>([]);
 
     const getSummary = useCallback(() => {
         PersonOrderService.getOrderSummary(order)
@@ -35,25 +37,34 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
         );
     });
     const numberOfPositions = summaryItems.map(i => i.positions.length).reduce((u, v) => u + v, 0);
-    const debtors = Array.from(new Set(summaryItems.map(i => i.positions)
-                                                   .flat()
-                                                   .filter(p => !p.paid)
-                                                   .map(p => p.person)));
+    // memo to prevent endless loop with the following effect
+    const debtors = useMemo(() => {
+        return Array.from(new Set(summaryItems.map(i => i.positions)
+                                              .flat()
+                                              .filter(p => !p.paid)
+                                              .map(p => p.person)));
+    }, [summaryItems]);
+
+    useEffect(() => {
+        PersonOrderService.getDebts(order, debtors)
+            .then(setDebts);
+    }, [debtors, order]);
 
     function handlePayment(personOrder: PersonOrder) {
         PersonOrderService.pay(personOrder)
                           .then(getSummary);
     }
 
-    const labels = debtors.map(person => {
+    const labels = debts.map(debt => {
         return <DebtorLabel
-            key={person.name}
-            order={order}
-            person={person}
+            key={debt.links.self.href}
+            personOrder={debt}
             onClick={handlePayment}
             colorPicker={colorPicker.current}
         />;
     });
+
+    const totalDebts = debts.map(debt => debt.price).reduce((u, v) => u + v, 0);
 
     if (summaryItems.length > 0) {
         return (
@@ -74,9 +85,14 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
+                        <Grid.Row columns={2}>
+                            <Grid.Column width={12} verticalAlign="middle">
                                 {labels}
+                            </Grid.Column>
+                            <Grid.Column width={4} textAlign="right">
+                                <Label tag color="red">
+                                    {totalDebts.toFixed(2) + " €"}
+                                </Label>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

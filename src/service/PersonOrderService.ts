@@ -74,6 +74,14 @@ export default class PersonOrderService {
             }).then(map => Array.from(map.values()));
     }
 
+    static getDebts(order: Order, debtors: Person[]): Promise<Array<PersonOrder & { person: Person }>> {
+        const promises = debtors.map(async person => {
+            const personOrder = await PersonOrderService.getByPerson(order, person);
+            return Object.assign(personOrder, {person});
+        });
+        return Promise.all(promises);
+    }
+
     private static async fetchFood(positions: PersonOrderPosition[]): Promise<PersonOrderPosition[]> {
         for (const position of positions) {
             position.food = await FoodService.get(position.links.food);
