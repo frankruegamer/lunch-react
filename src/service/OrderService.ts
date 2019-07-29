@@ -4,6 +4,10 @@ import BackendService from "./BackendService";
 
 export default class OrderService {
 
+    static refresh(order: Order): Promise<Order> {
+        return BackendService.get(order.links.self);
+    }
+
     static getLast10(): Promise<Order[]> {
         return BackendService.getCollection<Order>("orders/search/last10")
             .then(orders => orders.map(initializeTimestamp));

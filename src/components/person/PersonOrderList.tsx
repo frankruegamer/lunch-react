@@ -1,9 +1,10 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Divider, Header, Icon, Segment} from "semantic-ui-react";
+import {Divider, Segment} from "semantic-ui-react";
 import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderPosition from "../../domain/PersonOrderPosition";
 import PersonOrderService from "../../service/PersonOrderService";
+import NoFoodPlaceholder from "../NoFoodPlaceholder";
 import FoodPriceGrid from "./FoodPriceGrid";
 import PayButton from "./PayButton";
 import PersonOrderListItem from "./PersonOrderListItem";
@@ -47,14 +48,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({personOrder, onRemove,
             </>
         );
     } else {
-        return (
-            <Segment placeholder>
-                <Header icon>
-                    <Icon name="food"/>
-                    No food has been added for this order.
-                </Header>
-            </Segment>
-        );
+        return <NoFoodPlaceholder/>;
     }
 };
 

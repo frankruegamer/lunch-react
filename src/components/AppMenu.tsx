@@ -12,34 +12,61 @@ enum Item {
 }
 
 interface AppMenuProps {
-    order: Order;
-    restaurant: Restaurant;
-    person: Person;
+    order?: Order;
+    restaurant?: Restaurant;
+    person?: Person;
+    onOrderChange: (order: Order) => void;
 }
 
-const AppMenu: React.FC<AppMenuProps> = ({order, restaurant, person}) => {
-    const [item, setItem] = useState(Item.me);
+const AppMenu: React.FC<AppMenuProps> = ({order, restaurant, person, onOrderChange}) => {
+    const personDefined = person !== undefined;
+    const orderDefined = order !== undefined;
+    const restaurantDefined = restaurant !== undefined;
+    const [item, setItem] = useState(personDefined ? Item.me : Item.overview);
 
     function handleClick(event: any, {name}: MenuItemProps) {
         setItem(name as Item);
     }
 
+    const meEnabled = personDefined && orderDefined && restaurantDefined;
+    const overviewEnabled = orderDefined && restaurantDefined;
+    const meActive = meEnabled && item === Item.me;
+    const overviewActive = overviewEnabled && item === Item.overview;
+    let mainContent;
+    if (meActive) {
+        mainContent = (
+            <PersonOverview
+                order={order as Order}
+                restaurant={restaurant as Restaurant}
+                person={person as Person}
+                onOrderChange={onOrderChange}
+            />
+        );
+    } else if (overviewActive) {
+        mainContent = (
+            <OrderOverview
+                order={order as Order}
+                restaurant={restaurant as Restaurant}
+            />
+        );
+    }
     return (
         <>
             <Menu pointing secondary>
                 <Menu.Item
                     name={Item.me}
-                    active={item === Item.me}
+                    active={meActive}
+                    disabled={!meEnabled}
                     onClick={handleClick}
                 />
                 <Menu.Item
                     name={Item.overview}
-                    active={item === Item.overview}
+                    active={overviewActive}
+                    disabled={!overviewEnabled}
                     onClick={handleClick}
                 />
             </Menu>
-            {item === Item.me && <PersonOverview order={order} restaurant={restaurant} person={person}/>}
-            {item === Item.overview && <OrderOverview restaurant={restaurant}/>}
+            {mainContent}
         </>
     );
 };

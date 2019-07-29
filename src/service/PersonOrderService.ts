@@ -1,3 +1,4 @@
+import OrderSummaryItem from "../components/overview/OrderSummaryItem";
 import Food from "../domain/Food";
 import Order from "../domain/Order";
 import Person from "../domain/Person";
@@ -13,6 +14,10 @@ interface CreateOrderParameters {
 }
 
 export default class PersonOrderService {
+
+    static getPersonOrders(order: Order): Promise<PersonOrder[]> {
+        return BackendService.getCollection(order.links.personOrders);
+    }
 
     static getByPerson(order: Order, person: Person): Promise<PersonOrder> {
         return BackendService.get(order.links.personOrders, {name: person.name});
@@ -42,6 +47,31 @@ export default class PersonOrderService {
 
     static pay(order: PersonOrder) {
         return BackendService.patch<PersonOrder>(order.links.self, {payed: true});
+    }
+
+    static getOrderSummary(order: Order): Promise<OrderSummaryItem[]> {
+        return PersonOrderService.getPersonOrders(order)
+            .then(async personOrders => {
+                // use string to ensure identity
+                const map = new Map<string, OrderSummaryItem>();
+                for (const personOrder of personOrders) {
+                    const payed = personOrder.payed;
+                    const person = await BackendService.get<Person>(personOrder.links.person);
+                    const positions = await PersonOrderService.getPositions(personOrder);
+                    for (const position of positions) {
+                        const key = position.food.links.self.href;
+                        let summaryItem = map.get(key);
+                        if (summaryItem === undefined) {
+                            summaryItem = {food: position.food, positions: []};
+                        }
+                        const custom = position.custom;
+                        const positionKey = position.links.self.href;
+                        summaryItem.positions.push({key: positionKey, person, custom, payed});
+                        map.set(key, summaryItem);
+                    }
+                }
+                return map;
+            }).then(map => Array.from(map.values()));
     }
 
     private static async fetchFood(positions: PersonOrderPosition[]): Promise<PersonOrderPosition[]> {

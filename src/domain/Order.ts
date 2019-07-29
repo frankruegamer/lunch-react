@@ -9,4 +9,5 @@ interface OrderLinks extends Links {
 
 export default interface Order extends Linkable<OrderLinks> {
     timestamp: Date;
+    price: number;
 }

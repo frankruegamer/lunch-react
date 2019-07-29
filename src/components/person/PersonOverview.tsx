@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Grid} from "semantic-ui-react";
 import Food from "../../domain/Food";
 import Order from "../../domain/Order";
@@ -7,6 +7,7 @@ import Person from "../../domain/Person";
 import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderPosition from "../../domain/PersonOrderPosition";
 import Restaurant from "../../domain/Restaurant";
+import OrderService from "../../service/OrderService";
 import PersonOrderService from "../../service/PersonOrderService";
 import AlreadyPayedMessage from "./AlreadyPayedMessage";
 import FoodSearch from "./FoodSearch";
@@ -16,22 +17,21 @@ interface PersonOverviewProps {
     order: Order;
     restaurant: Restaurant;
     person: Person;
+    onOrderChange: (order: Order) => void;
 }
 
-const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, person}) => {
-    // used as dependency to trigger rendering
-    const [positionChange, setPositionChange] = useState<number>();
-
+const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, person, onOrderChange}) => {
     const [personOrder, setPersonOrder] = useState<PersonOrder>();
     useEffect(() => {
         PersonOrderService.getByPerson(order, person)
             .then(setPersonOrder)
             .catch(() => null);
-    }, [positionChange, order, person]);
+    }, [order, person]);
 
-    const orderChange = useCallback(() => {
-        setPositionChange(Math.random());
-    }, []);
+    function orderChange() {
+        OrderService.refresh(order)
+            .then(onOrderChange);
+    }
 
     function addFood(food: Food) {
         PersonOrderService.createPersonOrder(food, {personOrder, order, person})

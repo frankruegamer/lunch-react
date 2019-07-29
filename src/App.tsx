@@ -28,10 +28,14 @@ const App: React.FC = () => {
     }
 
     const MainContent = (() => {
-        if (state.order === undefined || person === undefined || state.restaurant === undefined) {
-            return null;
-        }
-        return <AppMenu order={state.order} restaurant={state.restaurant} person={person}/>;
+        return (
+            <AppMenu
+                order={state.order}
+                restaurant={state.restaurant}
+                person={person}
+                onOrderChange={handleOrderChange}
+            />
+        );
     });
 
     return (

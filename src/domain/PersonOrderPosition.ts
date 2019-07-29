@@ -8,6 +8,6 @@ interface PersonOrderPositionLinks extends Links {
 }
 
 export default interface PersonOrderPosition extends Linkable<PersonOrderPositionLinks> {
-    custom: string;
+    custom: string | null;
     food: Food;
 }
