@@ -9,7 +9,7 @@ import PersonOrderPosition from "../../domain/PersonOrderPosition";
 import Restaurant from "../../domain/Restaurant";
 import OrderService from "../../service/OrderService";
 import PersonOrderService from "../../service/PersonOrderService";
-import AlreadyPayedMessage from "./AlreadyPayedMessage";
+import AlreadyPaidMessage from "./AlreadyPaidMessage";
 import FoodSearch from "./FoodSearch";
 import PersonOrderList from "./PersonOrderList";
 
@@ -57,7 +57,7 @@ const PersonOverview: React.FC<PersonOverviewProps> = ({order, restaurant, perso
                 <PersonOrderList personOrder={personOrder} onRemove={removePosition} onPayment={handlePayment}/>
             </Grid.Column>
             <Grid.Column style={{paddingLeft: "3em"}}>
-                {(personOrder === undefined || !personOrder.payed) ? search : <AlreadyPayedMessage/>}
+                {(personOrder === undefined || !personOrder.paid) ? search : <AlreadyPaidMessage/>}
             </Grid.Column>
         </Grid>
     );

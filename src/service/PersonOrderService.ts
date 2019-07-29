@@ -46,7 +46,7 @@ export default class PersonOrderService {
     }
 
     static pay(order: PersonOrder) {
-        return BackendService.patch<PersonOrder>(order.links.self, {payed: true});
+        return BackendService.patch<PersonOrder>(order.links.self, {paid: true});
     }
 
     static getOrderSummary(order: Order): Promise<OrderSummaryItem[]> {
@@ -55,7 +55,7 @@ export default class PersonOrderService {
                 // use string to ensure identity
                 const map = new Map<string, OrderSummaryItem>();
                 for (const personOrder of personOrders) {
-                    const payed = personOrder.payed;
+                    const paid = personOrder.paid;
                     const person = await BackendService.get<Person>(personOrder.links.person);
                     const positions = await PersonOrderService.getPositions(personOrder);
                     for (const position of positions) {
@@ -66,7 +66,7 @@ export default class PersonOrderService {
                         }
                         const custom = position.custom;
                         const positionKey = position.links.self.href;
-                        summaryItem.positions.push({key: positionKey, person, custom, payed});
+                        summaryItem.positions.push({key: positionKey, person, custom, paid});
                         map.set(key, summaryItem);
                     }
                 }

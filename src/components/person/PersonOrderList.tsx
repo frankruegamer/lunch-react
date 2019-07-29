@@ -31,7 +31,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({personOrder, onRemove,
             <PersonOrderListItem
                 key={p.links.self.href}
                 position={p}
-                disableRemove={personOrder.payed}
+                disableRemove={personOrder.paid}
                 onRemove={onRemove}
             />
         ));
@@ -44,7 +44,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({personOrder, onRemove,
                 <Segment>
                     <FoodPriceGrid name={"Total: " + positions.length} price={personOrder.price}/>
                 </Segment>
-                <PayButton payed={personOrder.payed} price={personOrder.price} onPayment={onPayment}/>
+                <PayButton paid={personOrder.paid} price={personOrder.price} onPayment={onPayment}/>
             </>
         );
     } else {

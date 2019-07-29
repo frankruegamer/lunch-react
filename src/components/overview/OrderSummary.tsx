@@ -29,7 +29,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
         );
     });
     const numberOfPositions = summaryItems.map(i => i.positions.length).reduce((u, v) => u + v, 0);
-    const debtors = Array.from(new Set(summaryItems.map(i => i.positions).flat().filter(p => !p.payed).map(
+    const debtors = Array.from(new Set(summaryItems.map(i => i.positions).flat().filter(p => !p.paid).map(
         p => p.person)));
     const labels = debtors.map(person => {
         const label = (

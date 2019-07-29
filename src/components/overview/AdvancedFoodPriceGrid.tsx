@@ -13,7 +13,7 @@ const AdvancedFoodPriceGrid: React.FC<AdvancedFoodPriceGridProps> = ({item, colo
     const labels = positions.map(position => {
         return (
             <Label key={position.key} color={colorPicker.get(position.person.name)}>
-                <Icon name={position.payed ? "check" : "x"}/>
+                <Icon name={position.paid ? "check" : "x"}/>
                 {position.person.name}
             </Label>
         );

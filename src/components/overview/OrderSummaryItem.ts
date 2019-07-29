@@ -5,7 +5,7 @@ export interface Position {
     key: string;
     person: Person;
     custom: string | null;
-    payed: boolean;
+    paid: boolean;
 }
 
 export default interface OrderSummaryItem {
