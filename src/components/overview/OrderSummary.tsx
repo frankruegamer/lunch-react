@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {Divider, Grid, Header, Icon, Label, Popup, Segment} from "semantic-ui-react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {Divider, Grid, Header, Label, Segment} from "semantic-ui-react";
 import Order from "../../domain/Order";
+import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderService from "../../service/PersonOrderService";
 import SemanticColorPicker from "../../tools/SemanticColorPicker";
 import NoFoodPlaceholder from "../NoFoodPlaceholder";
 import AdvancedFoodPriceGrid from "./AdvancedFoodPriceGrid";
+import DebtorLabel from "./DebtorLabel";
 import OrderSummaryItem from "./OrderSummaryItem";
 
 interface OrderSummaryProps {
@@ -14,31 +16,43 @@ interface OrderSummaryProps {
 const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
     const [summaryItems, setSummaryItems] = useState<OrderSummaryItem[]>([]);
 
-    useEffect(() => {
+    const getSummary = useCallback(() => {
         PersonOrderService.getOrderSummary(order)
-            .then(setSummaryItems);
+                          .then(setSummaryItems);
     }, [order]);
 
-    const colorPicker = new SemanticColorPicker();
+    useEffect(() => {
+        getSummary();
+    }, [getSummary]);
+
+    const colorPicker = useRef(new SemanticColorPicker());
 
     const segments = summaryItems.map(i => {
         return (
             <Segment key={i.food.links.self.href}>
-                <AdvancedFoodPriceGrid item={i} colorPicker={colorPicker}/>
+                <AdvancedFoodPriceGrid item={i} colorPicker={colorPicker.current}/>
             </Segment>
         );
     });
     const numberOfPositions = summaryItems.map(i => i.positions.length).reduce((u, v) => u + v, 0);
-    const debtors = Array.from(new Set(summaryItems.map(i => i.positions).flat().filter(p => !p.paid).map(
-        p => p.person)));
+    const debtors = Array.from(new Set(summaryItems.map(i => i.positions)
+                                                   .flat()
+                                                   .filter(p => !p.paid)
+                                                   .map(p => p.person)));
+
+    function handlePayment(personOrder: PersonOrder) {
+        PersonOrderService.pay(personOrder)
+                          .then(getSummary);
+    }
+
     const labels = debtors.map(person => {
-        const label = (
-            <Label color={colorPicker.get(person.name)}>
-                <Icon name={"x"}/>
-                {person.name}
-            </Label>
-        );
-        return <Popup key={person.name} trigger={label} content={person.name + " has not paid for their order."}/>;
+        return <DebtorLabel
+            key={person.name}
+            order={order}
+            person={person}
+            onClick={handlePayment}
+            colorPicker={colorPicker.current}
+        />;
     });
 
     if (summaryItems.length > 0) {
