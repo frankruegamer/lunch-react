@@ -4,6 +4,7 @@ import Order from "../../domain/Order";
 import Person from "../../domain/Person";
 import PersonOrder from "../../domain/PersonOrder";
 import PersonOrderService from "../../service/PersonOrderService";
+import PriceFormatter from "../../tools/PriceFormatter";
 import SemanticColorPicker from "../../tools/SemanticColorPicker";
 import NoFoodPlaceholder from "../NoFoodPlaceholder";
 import AdvancedFoodPriceGrid from "./AdvancedFoodPriceGrid";
@@ -81,7 +82,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
                             </Grid.Column>
                             <Grid.Column width={4} textAlign="right">
                                 <Label tag color="green">
-                                    {order.price.toFixed(2) + " €"}
+                                    {PriceFormatter.format(order.price)}
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>
@@ -91,7 +92,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({order}) => {
                             </Grid.Column>
                             <Grid.Column width={4} textAlign="right">
                                 <Label tag color="red">
-                                    {totalDebts.toFixed(2) + " €"}
+                                    {PriceFormatter.format(totalDebts)}
                                 </Label>
                             </Grid.Column>
                         </Grid.Row>

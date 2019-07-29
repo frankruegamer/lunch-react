@@ -3,6 +3,7 @@ import {Search, SearchProps, SearchResultData} from "semantic-ui-react";
 import Food from "../../domain/Food";
 import Restaurant from "../../domain/Restaurant";
 import FoodService from "../../service/FoodService";
+import PriceFormatter from "../../tools/PriceFormatter";
 
 interface FoodSearchProps {
     restaurant: Restaurant;
@@ -36,7 +37,7 @@ const FoodSearch: React.FC<FoodSearchProps> = ({restaurant, onFoodSelect}) => {
     const results = foods.map(food => ({
         description: food.description,
         key: food.name + food.description,
-        price: food.price.toFixed(2) + " €",
+        price: PriceFormatter.format(food.price),
         title: food.name
     }));
     return <Search

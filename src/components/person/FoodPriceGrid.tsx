@@ -1,5 +1,6 @@
 import React from "react";
 import {Grid, Header, Label} from "semantic-ui-react";
+import PriceFormatter from "../../tools/PriceFormatter";
 
 interface FoodPriceGridProps {
     name: string;
@@ -16,7 +17,7 @@ const FoodPriceGrid: React.FC<FoodPriceGridProps> = React.memo((props) => {
                     {props.description && <Header.Subheader> {props.description} </Header.Subheader>}
                 </Grid.Column>
                 <Grid.Column width={4} textAlign="right">
-                    <Label tag color="green">{props.price.toFixed(2) + " €"}</Label>
+                    <Label tag color="green">{PriceFormatter.format(props.price)}</Label>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

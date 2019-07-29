@@ -1,5 +1,6 @@
 import React from "react";
 import {Grid, Header, Icon, Label} from "semantic-ui-react";
+import PriceFormatter from "../../tools/PriceFormatter";
 import SemanticColorPicker from "../../tools/SemanticColorPicker";
 import OrderSummaryItem from "./OrderSummaryItem";
 
@@ -27,7 +28,7 @@ const AdvancedFoodPriceGrid: React.FC<AdvancedFoodPriceGridProps> = ({item, colo
                 </Grid.Column>
                 <Grid.Column width={4} textAlign="right">
                     <Label tag color="green">
-                        {food.price.toFixed(2) + " €"}
+                        {PriceFormatter.format(food.price)}
                         <Label.Detail>
                             {"x" + positions.length}
                         </Label.Detail>

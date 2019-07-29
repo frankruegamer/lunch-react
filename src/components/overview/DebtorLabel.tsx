@@ -2,6 +2,7 @@ import React from "react";
 import {Icon, Label, Popup} from "semantic-ui-react";
 import Person from "../../domain/Person";
 import PersonOrder from "../../domain/PersonOrder";
+import PriceFormatter from "../../tools/PriceFormatter";
 import SemanticColorPicker from "../../tools/SemanticColorPicker";
 
 interface DebtorLabelProps {
@@ -28,7 +29,7 @@ const DebtorLabel: React.FC<DebtorLabelProps> = ({personOrder, onClick, colorPic
         <Popup flowing trigger={label}>
             {name} has not paid for their order.
             <br/>
-            Click to confirm payment of {personOrder.price.toFixed(2)} €.
+            Click to confirm payment of {PriceFormatter.format(personOrder.price)}.
         </Popup>
     );
 };
