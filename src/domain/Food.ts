@@ -8,7 +8,7 @@ interface FoodLinks extends Links {
 }
 
 export default interface Food extends Linkable<FoodLinks> {
-    number: string;
+    number: string | null;
     name: string;
     description: string;
     price: number;

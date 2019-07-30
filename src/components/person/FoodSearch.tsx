@@ -38,7 +38,7 @@ const FoodSearch: React.FC<FoodSearchProps> = ({restaurant, onFoodSelect}) => {
         description: food.description,
         key: food.name + food.description,
         price: PriceFormatter.format(food.price),
-        title: food.name
+        title: (food.number !== null ? food.number + ": " : "") + food.name
     }));
     return <Search
         value={input}

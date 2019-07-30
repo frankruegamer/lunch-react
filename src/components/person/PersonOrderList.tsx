@@ -42,7 +42,7 @@ const PersonOrderList: React.FC<PersonOrderListProps> = ({personOrder, onRemove,
                 </Segment.Group>
                 <Divider/>
                 <Segment>
-                    <FoodPriceGrid name={"Total: " + positions.length} price={personOrder.price}/>
+                    <FoodPriceGrid name={"Total: " + positions.length} price={personOrder.price} number={null}/>
                 </Segment>
                 <PayButton paid={personOrder.paid} price={personOrder.price} onPayment={onPayment}/>
             </>
