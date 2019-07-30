@@ -1,5 +1,5 @@
 import URI from "urijs";
-import Hal, {extend} from "../domain/hal/Hal";
+import Hal from "../domain/hal/Hal";
 import Link from "../domain/hal/Link";
 import Linkable from "../domain/hal/Linkable";
 import Links from "../domain/hal/Links";
@@ -24,7 +24,7 @@ export default class BackendService {
         return fetch(BackendService.getUrl(link, params).valueOf(), {signal})
             .then(async response => {
                 if (response.ok) {
-                    return extend(await response.json(), new Linkable());
+                    return Object.assign(new Linkable(), await response.json());
                 } else {
                     throw new Error(response.statusText);
                 }
@@ -64,7 +64,7 @@ export default class BackendService {
             },
             method: "POST",
         }).then(response => response.json())
-            .then(json => extend(json, new Linkable()));
+          .then(json => Object.assign(new Linkable(), json));
     }
 
     static delete(link: Link): Promise<Response> {
@@ -81,7 +81,7 @@ export default class BackendService {
             },
             method: "PATCH",
         }).then(response => response.json())
-            .then(json => extend(json, new Linkable()));
+          .then(json => Object.assign(new Linkable(), json));
     }
 
     static testConnection() {

@@ -16,7 +16,7 @@ export default class Hal<T extends Linkable<Links>> {
 
     constructor(json: HalObject<T>) {
         this.json = json;
-        this.objects = this.objects.map(o => extend(o, new Linkable()));
+        this.objects = this.objects.map(o => Object.assign(new Linkable(), o));
     }
 
     get page(): Page {
@@ -32,12 +32,4 @@ export default class Hal<T extends Linkable<Links>> {
         return Object.values(this.json._embedded)[0];
     }
 
-}
-
-export function extend<T, U>(obj: T, extension: U) {
-    Object.keys(obj).forEach((key) => {
-        // @ts-ignore
-        extension[key] = obj[key];
-    });
-    return extension as T & U;
 }
