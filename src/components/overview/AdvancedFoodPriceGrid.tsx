@@ -25,7 +25,6 @@ const AdvancedFoodPriceGrid: React.FC<AdvancedFoodPriceGridProps> = ({item, colo
             <Grid.Row>
                 <Grid.Column width={12} verticalAlign="middle">
                     <Header as="h4">{foodNumber + food.name}</Header>
-                    {food.description && <Header.Subheader> {food.description} </Header.Subheader>}
                 </Grid.Column>
                 <Grid.Column width={4} textAlign="right">
                     <Label tag color="green">
