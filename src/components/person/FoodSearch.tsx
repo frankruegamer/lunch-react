@@ -30,13 +30,13 @@ const FoodSearch: React.FC<FoodSearchProps> = ({restaurant, onFoodSelect}) => {
     function handleResultSelect(event: any, data: SearchResultData) {
         setInput("");
         const result = data.result;
-        const food = foods.find(f => f.name === result.title && f.description === result.description);
+        const food = foods.find(f => f.links.self.href === result.key);
         onFoodSelect(food as Food);
     }
 
     const results = foods.map(food => ({
         description: food.description,
-        key: food.name + food.description,
+        key: food.links.self.href,
         price: PriceFormatter.format(food.price),
         title: (food.number !== null ? food.number + ": " : "") + food.name
     }));
